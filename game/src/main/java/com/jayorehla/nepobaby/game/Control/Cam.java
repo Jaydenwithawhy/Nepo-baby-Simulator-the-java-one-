@@ -41,6 +41,7 @@ public class Cam {
     }
 
     public void update(){
+        results.clear();
         ray.setDirection(cam.getDirection());
         root.collideWith(ray, results);
     }
