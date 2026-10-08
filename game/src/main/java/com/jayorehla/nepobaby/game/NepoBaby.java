@@ -1,7 +1,9 @@
 package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.Cam;
+import com.jayorehla.nepobaby.game.Control.MickeyMouse;
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.controls.InputListener;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
@@ -18,6 +20,10 @@ public class NepoBaby extends SimpleApplication {
 
 
     Cam camera;
+
+    MickeyMouse mickeyMouse;
+
+    InputListener inputListener;
 
     public NepoBaby() {
     }
@@ -40,10 +46,11 @@ public class NepoBaby extends SimpleApplication {
         rootNode.attachChild(geom);
 
         camera = new Cam(cam,rootNode);
+        mickeyMouse = new MickeyMouse(inputManager);
     }
 
     public void simpleUpdate(float tpf) {
-        camera.MouseClicked = true;
+        camera.MouseClicked = mickeyMouse.leftClick;
         camera.update();
 
         System.out.println(camera.ObjectClicked().name());
