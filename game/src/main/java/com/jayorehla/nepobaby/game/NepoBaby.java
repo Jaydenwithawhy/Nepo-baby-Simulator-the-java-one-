@@ -1,5 +1,6 @@
 package com.jayorehla.nepobaby.game;
 
+import com.jayorehla.nepobaby.game.Control.Cam;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -14,6 +15,9 @@ import com.jme3.app.state.AppState;
  *
  */
 public class NepoBaby extends SimpleApplication {
+
+
+    Cam camera;
 
     public NepoBaby() {
     }
@@ -34,6 +38,15 @@ public class NepoBaby extends SimpleApplication {
         geom.setMaterial(mat);
 
         rootNode.attachChild(geom);
+
+        camera = new Cam(cam,rootNode);
+    }
+
+    public void simpleUpdate(float tpf) {
+        camera.update();
+        camera.MouseClicked = true;
+
+        System.out.println(camera.ObjectClicked());
     }
 
 }
