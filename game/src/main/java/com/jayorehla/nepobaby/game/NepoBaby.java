@@ -43,8 +43,8 @@ public class NepoBaby extends SimpleApplication {
     }
 
     public void simpleUpdate(float tpf) {
-        camera.update();
         camera.MouseClicked = true;
+        camera.update();
 
         System.out.println(camera.ObjectClicked());
     }

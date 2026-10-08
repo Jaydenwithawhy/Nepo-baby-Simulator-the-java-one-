@@ -37,15 +37,19 @@ public class Cam {
         root.collideWith(ray, results);
     }
 
+    public String debug(){
+        if (results.size() > 0 ){
+            return results.getClosestCollision().getGeometry().getName();
+        }
+        return "nothing in list?!";
+    }
+
     public String ObjectClicked(){
         if(MouseClicked){
             if (results.size() > 0) {
                 lookedAtThing = results.getClosestCollision().getGeometry().getName();
-            }
-            lookedAtThing = "nothing";
-        }
-        lookedAtThing = "nothing";
-
+            }else lookedAtThing = "nothing";
+        }else lookedAtThing = "nothing";
         return lookedAtThing;
     }
 }
