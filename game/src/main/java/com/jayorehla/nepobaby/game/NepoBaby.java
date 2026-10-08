@@ -2,6 +2,7 @@ package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.Cam;
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
+import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.controls.InputListener;
 import com.jme3.material.Material;
@@ -25,6 +26,8 @@ public class NepoBaby extends SimpleApplication {
 
     InputListener inputListener;
 
+    TheOffice theOffice;
+
     public NepoBaby() {
     }
 
@@ -47,6 +50,7 @@ public class NepoBaby extends SimpleApplication {
 
         camera = new Cam(cam,rootNode);
         mickeyMouse = new MickeyMouse(inputManager);
+        theOffice = new TheOffice(rootNode,assetManager);
     }
 
     public void simpleUpdate(float tpf) {
