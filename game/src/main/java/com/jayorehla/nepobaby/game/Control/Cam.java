@@ -23,6 +23,14 @@ public class Cam {
 
     String lookedAtThing;
 
+    public enum ThingsToLookAt{
+        computer,
+        cabeniet,
+        employee,
+        AdrienneChristianHernandez,
+        nothing
+        }
+
 
     public Cam(Camera cam, Node root){
         head = new Node("Augustus A Avonshire");
@@ -44,12 +52,18 @@ public class Cam {
         return "nothing in list?!";
     }
 
-    public String ObjectClicked(){
+    public ThingsToLookAt ObjectClicked(){
         if(MouseClicked){
             if (results.size() > 0) {
                 lookedAtThing = results.getClosestCollision().getGeometry().getName();
-            }else lookedAtThing = "nothing";
-        }else lookedAtThing = "nothing";
-        return lookedAtThing;
+
+                switch (lookedAtThing){ // this way we can make sure we are only logging things we care about
+                    case "Box":
+                        return ThingsToLookAt.AdrienneChristianHernandez;
+
+                }
+            }else return ThingsToLookAt.nothing;;
+        }
+        return ThingsToLookAt.nothing;
     }
 }

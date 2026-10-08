@@ -46,7 +46,7 @@ public class NepoBaby extends SimpleApplication {
         camera.MouseClicked = true;
         camera.update();
 
-        System.out.println(camera.ObjectClicked());
+        System.out.println(camera.ObjectClicked().name());
     }
 
 }
