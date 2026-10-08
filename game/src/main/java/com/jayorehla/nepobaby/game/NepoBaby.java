@@ -27,6 +27,8 @@ public class NepoBaby extends SimpleApplication {
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
 
+        flyCam.setMoveSpeed(0f);
+
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         geom.setMaterial(mat);
