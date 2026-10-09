@@ -5,9 +5,16 @@ import com.jayorehla.nepobaby.game.Control.MickeyMouse;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.controls.InputListener;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
+import com.jme3.light.LightProbe;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.app.state.AppState;
 
@@ -24,8 +31,6 @@ public class NepoBaby extends SimpleApplication {
 
     MickeyMouse mickeyMouse;
 
-    InputListener inputListener;
-
     TheOffice theOffice;
 
     public NepoBaby() {
@@ -40,13 +45,27 @@ public class NepoBaby extends SimpleApplication {
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
 
-        flyCam.setMoveSpeed(0f);
+        flyCam.setMoveSpeed(0);
 
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         geom.setMaterial(mat);
 
         rootNode.attachChild(geom);
+
+        AmbientLight al = new AmbientLight();
+        al.setColor(ColorRGBA.White.mult(1.3f));
+        rootNode.addLight(al);
+
+        cam.setLocation(new Vector3f(2.1749218f,2.3135061f,-1.8647175f)); // found this by flying around
+
+        // I lowkirkgenually have no clue what a quaterion is i just fricked around to find out
+        cam.setRotation(new Quaternion(0.03264319f, -0.5638806f, 0.022313379f, 0.82490915f));
+
+        DirectionalLight sun = new DirectionalLight();
+        sun.setColor(ColorRGBA.White);
+        sun.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
+        rootNode.addLight(sun);
 
         camera = new Cam(cam,rootNode);
         mickeyMouse = new MickeyMouse(inputManager);
@@ -57,7 +76,7 @@ public class NepoBaby extends SimpleApplication {
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.update();
 
-        System.out.println(camera.ObjectClicked().name());
+        System.out.println(cam.getRotation());
     }
 
 }
