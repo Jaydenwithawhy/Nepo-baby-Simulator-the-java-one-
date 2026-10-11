@@ -12,6 +12,8 @@ minie = '9.0.3'
 lemur = '1.16.0'
 lemur-proto = '1.13.0'
 
+freetts-version = "1.2.2"
+
 [plugins]
 
 [libraries]
@@ -26,6 +28,7 @@ jmeNetworking = { module = "org.jmonkeyengine:jme3-networking", version.ref = "j
 jmeNifty = { module = "org.jmonkeyengine:jme3-niftygui", version.ref = "jme" }
 jmeAndroid = { module = "org.jmonkeyengine:jme3-android", version.ref = "jme" }
 jmeAndroidNative = { module = "org.jmonkeyengine:jme3-android-native", version.ref = "jme" }
+javatts = {module = "net.sf.sociaal:freetts", version.ref = "freetts-version"}
 
 
 

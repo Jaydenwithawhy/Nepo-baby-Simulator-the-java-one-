@@ -2,6 +2,7 @@ package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.Cam;
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
+import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.controls.InputListener;
@@ -17,6 +18,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.app.state.AppState;
+import com.jme3.system.Timer;
 
 /**
  * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
@@ -33,6 +35,10 @@ public class NepoBaby extends SimpleApplication {
 
     TheOffice theOffice;
 
+    Employers employers;
+
+    Timer timer;
+
     public NepoBaby() {
     }
 
@@ -45,7 +51,9 @@ public class NepoBaby extends SimpleApplication {
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
 
-        flyCam.setMoveSpeed(0);
+        timer =  stateManager.getApplication().getTimer();
+
+        flyCam.setMoveSpeed(4f);
 
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
@@ -70,13 +78,16 @@ public class NepoBaby extends SimpleApplication {
         camera = new Cam(cam,rootNode);
         mickeyMouse = new MickeyMouse(inputManager);
         theOffice = new TheOffice(rootNode,assetManager);
+        employers = new Employers(rootNode,assetManager);
     }
 
     public void simpleUpdate(float tpf) {
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.update();
 
-        System.out.println(cam.getRotation());
+        employers.Update(tpf);
+
+        System.out.println(cam.getLocation());
     }
 
 }

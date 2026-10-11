@@ -8,11 +8,11 @@ dependencies {
     runtimeOnly libs.jmeJogg
     runtimeOnly libs.jmePlugins
 
-    
-    
+
 
 
     api libs.minie
     api libs.lemur
     api libs.lemur.proto
+    api libs.javatts
 }
