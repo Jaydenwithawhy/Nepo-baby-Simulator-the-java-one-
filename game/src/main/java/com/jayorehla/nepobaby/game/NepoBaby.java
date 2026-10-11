@@ -4,6 +4,7 @@ import com.jayorehla.nepobaby.game.Control.Cam;
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
+import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.AmbientLight;
@@ -38,6 +39,8 @@ public class NepoBaby extends SimpleApplication {
     Employers employers;
 
     Timer timer;
+
+    VoiceSyth voiceSyth;
 
     public NepoBaby() {
     }
@@ -79,15 +82,21 @@ public class NepoBaby extends SimpleApplication {
         mickeyMouse = new MickeyMouse(inputManager);
         theOffice = new TheOffice(rootNode,assetManager);
         employers = new Employers(rootNode,assetManager);
+
+        voiceSyth = new VoiceSyth();
+        stateManager.attach(voiceSyth);
+
+        voiceSyth.SetVoice("kevin");
     }
 
     public void simpleUpdate(float tpf) {
+        voiceSyth.SayText("OI! CAN YOU FUGGING HERE MOI MATE! LADDY?!");
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.update();
 
         employers.Update(tpf);
 
-        System.out.println(cam.getLocation());
+        //System.out.println(cam.getLocation());
     }
 
 }
