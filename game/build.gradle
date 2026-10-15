@@ -15,4 +15,9 @@ dependencies {
     api libs.lemur
     api libs.lemur.proto
     api libs.javatts
+    api libs.marrytts
+    api libs.marryttsEn
+    api libs.marryttsVoice
+//    api libs.marryttsVoiceMan
+//    api libs.marryttsVoiceOther
 }

@@ -1,6 +1,8 @@
 package com.jayorehla.nepobaby.game.Models;
 
+import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.utls.PIDFController;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -40,7 +42,14 @@ public class Employers {
 
     public float targetx, targetz;
 
-    public Employers(Node root, AssetManager ass){
+    VoiceSyth Lvoice;
+    VoiceSyth Rvoice;
+    VoiceSyth Cvoice;
+    VoiceSyth Avoice;
+    VoiceSyth Jvoice;
+    VoiceSyth Wvoice; // A was taken, sorry Archey boy
+
+    public Employers(Node root, AssetManager ass, AppStateManager stateManager){
         this.root = root;
         xPidf = new PIDFController(0.5,0,0);
         zPidf = new PIDFController(0.5,0,0); //TODO: tune these values
@@ -71,6 +80,31 @@ public class Employers {
         employeeList.add("Amora the Secretary");
         employeeList.add("Janitorial Jimmy");
         employeeList.add("Archey 'Arch' Winicks the Computer Technician");
+
+        Lvoice = new VoiceSyth();
+        Rvoice = new VoiceSyth();
+        Cvoice = new VoiceSyth();
+        Avoice = new VoiceSyth();
+        Jvoice = new VoiceSyth();
+        Wvoice = new VoiceSyth();
+
+        stateManager.attach(Lvoice);
+        stateManager.attach(Rvoice);
+        stateManager.attach(Cvoice);
+        stateManager.attach(Avoice);
+        stateManager.attach(Jvoice);
+        stateManager.attach(Wvoice);
+
+        //TODO: make sure the voices sound good! i uh have no tested them so they may sound dookie
+
+        // yes everyone is SAM
+        Lvoice.SetVoice( 60, 200, 200, 50,false);
+        Rvoice.SetVoice( 60, 200, 200, 50,false);
+        Cvoice.SetVoice( 60, 200, 200, 50,false);
+        Avoice.SetVoice( 60, 200, 200, 50,false);
+        Jvoice.SetVoice( 60, 200, 200, 50,false);
+        Wvoice.SetVoice( 60, 200, 200, 50,false);
+
 
     }
 
@@ -153,7 +187,35 @@ public class Employers {
                     }
                     break;
                 case 2:
-                    employeeTime = true;
+                    switch (currentEmployee){
+                        case "Lothario Casanova the E-mail guy":
+                            Lvoice.SayText("My Favorite employer!");
+                            step = 3;
+                            break;
+                        case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
+                            Rvoice.SayText("I am Roberto 'Za Robair' Robyn Roby Robinder Robbie Robertson Za Third! I'm here to rob you!");
+                            step = 3;
+                            break;
+                        case "The Cats":
+                            Cvoice.SayText("Meow meow mew meowmeow");
+                            step = 3;
+                            break;
+                        case "Amora the Secretary":
+                            Avoice.SayText("Sir, we have many files for you to sign");
+                            step = 3;
+                            break;
+                        case "Janitorial Jimmy":
+                            Jvoice.SayText("OI LADDY! MATE! OI! OI! OI! THIS PLACE IS A FRUGGING MESS LADDY! WHAT THE BLOODY HELL");
+                            step = 3;
+                            break;
+                        case "Archey 'Arch' Winicks the Computer Technician":
+                            Wvoice.SayText("I think your computer rm -rf / itself");
+                            step = 3;
+                            break;
+                    }
+                    break;
+                case 3:
+                    break;
             }
 
         }

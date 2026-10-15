@@ -42,6 +42,8 @@ public class NepoBaby extends SimpleApplication {
 
     VoiceSyth voiceSyth;
 
+    boolean yapping = false;
+
     public NepoBaby() {
     }
 
@@ -81,7 +83,7 @@ public class NepoBaby extends SimpleApplication {
         camera = new Cam(cam,rootNode);
         mickeyMouse = new MickeyMouse(inputManager);
         theOffice = new TheOffice(rootNode,assetManager);
-        employers = new Employers(rootNode,assetManager);
+        employers = new Employers(rootNode,assetManager,stateManager);
 
         voiceSyth = new VoiceSyth();
         stateManager.attach(voiceSyth);
@@ -90,7 +92,11 @@ public class NepoBaby extends SimpleApplication {
     }
 
     public void simpleUpdate(float tpf) {
-        voiceSyth.SayText("OI! CAN YOU FUGGING HERE MOI MATE! LADDY?!");
+
+        if(!yapping){
+//            voiceSyth.SayText("hey gooner king, practice your 'stroke' wont ya?");
+            yapping = true;
+        }
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.update();
 

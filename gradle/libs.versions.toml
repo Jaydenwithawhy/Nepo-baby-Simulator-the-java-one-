@@ -13,6 +13,8 @@ lemur = '1.16.0'
 lemur-proto = '1.13.0'
 
 freetts-version = "1.2.2"
+marrytts = "5.2.1"
+sam = "1.0.0"
 
 [plugins]
 
@@ -29,6 +31,9 @@ jmeNifty = { module = "org.jmonkeyengine:jme3-niftygui", version.ref = "jme" }
 jmeAndroid = { module = "org.jmonkeyengine:jme3-android", version.ref = "jme" }
 jmeAndroidNative = { module = "org.jmonkeyengine:jme3-android-native", version.ref = "jme" }
 javatts = {module = "net.sf.sociaal:freetts", version.ref = "freetts-version"}
+marrytts = {module = "de.dfki.mary:marytts-runtime", version.ref = "marrytts"}
+marryttsEn = { module = "de.dfki.mary:marytts-lang-en", version.ref = "marrytts"}
+marryttsVoice = { module = "de.dfki.mary:voice-cmu-slt-hsmm", version.ref = "marrytts"}
 
 
 

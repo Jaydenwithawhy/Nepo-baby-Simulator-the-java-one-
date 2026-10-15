@@ -1,44 +1,68 @@
 package com.jayorehla.nepobaby.game.Mouskatools;
 
+import com.github.thething.zam.synthesizer.SpeechSynthesizer;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
-import com.jme3.audio.AudioData;
-import com.jme3.audio.AudioNode;
+import marytts.LocalMaryInterface;
+import marytts.MaryInterface;
+import marytts.exceptions.MaryConfigurationException;
+import marytts.exceptions.SynthesisException;
 
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 // this'll keep the TTS and the game not to fight by being on different treads
 
+// OH yeah do you love SAM?! I do! well some gentleman out thier made it so SAM
+// can runn on Java! isnt that cool?!!!!!! if it works (haven tested yet) ill be so happy
+// It was made by Martin L on Github. https://github.com/the-thing/zam hes really cool
+// hopefully this puts an end to my TTS rabbit hole i went on and i could actually code
+
 public class VoiceSyth extends BaseAppState {
 
     Voice voice;
+
+    MaryInterface mary;
+
+
     private ExecutorService voiceExecutor;
 
     VoiceManager voiceManager;
 
+     AudioInputStream audio;
+
+     SpeechSynthesizer sam;
+
+     int pitch = 64, speed = 72, mouth = 128, throat = 128;
+
+     boolean singing = false;
+
     @Override
     protected void initialize(Application app) {
         // this inits the voice i think Im lowkirkgenually folloing a guide. i dont know everything...
-        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-       voiceManager = VoiceManager.getInstance();
-       voiceExecutor = Executors.newSingleThreadExecutor();
+//        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+//        voiceManager = VoiceManager.getInstance();
+        voiceExecutor = Executors.newSingleThreadExecutor();
 
-       // for what ever reson i drink stupid juce and forgor
-        if (voice != null){
-            SetVoice("kevin");
-        }
+         sam = SpeechSynthesizer.newInstance();
 
-        if (voice == null){
-            System.out.println("Voice: I'm Null!");
-        }else System.out.println("Voice: I'm NOT Null!");
+        // for what ever reson i drink stupid juce and forgor
+//        if (voice != null){
+//            SetVoice("kevin");
+//        }
 
-        if (voiceManager == null){
-            System.out.println("voiceManager: I'm Null!");
-        }else System.out.println("voiceManager: I'm NOT Null!");
+//        if (voice == null){
+//            System.out.println("Voice: I'm Null!");
+//        }else System.out.println("Voice: I'm NOT Null!");
+//
+        if (sam == null){
+            System.out.println("sam: I'm NOT Null! (i lied)");
+        }else System.out.println("sam: I'm NOT Null!");
 
         if (voiceExecutor == null){
             System.out.println("voiceExecutor: I'm Null!");
@@ -51,32 +75,68 @@ public class VoiceSyth extends BaseAppState {
 
     // okay so lets use Kelvin to test but in the not so far fecth furture we outa be flexable
     public void SetVoice(String voice){
-        // to make sure this runns
-        if (voiceManager == null) {
-            System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-            voiceManager = VoiceManager.getInstance();
-        }
-
-        this.voice = voiceManager.getVoice(voice);
-
-        if (this.voice != null) {
-            this.voice.allocate();
-        } else {
-            System.err.println("Yo! uh '" + voice +"' isnt a real voice you can do! stupid baka...");
-        }
+        return;
+//        // to make sure this runns
+//        if (voiceManager == null) {
+//            System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+//            voiceManager = VoiceManager.getInstance();
+//        }
+//
+//        this.voice = voiceManager.getVoice(voice);
+//
+//        if (this.voice != null) {
+//            this.voice.allocate();
+//        } else {
+//            System.err.println("Yo! uh '" + voice +"' isnt a real voice you can do! stupid baka...");
+//        }
     }
 
-    public void SayText(String text){
-        System.out.println("*clears troat to spit bars*");
-        if (voice == null || voiceExecutor == null) return;
-        if (voiceExecutor.isShutdown()) return;
-        System.out.println("im speaking bitch!");
+    public void SetVoice(int pitch, int speed, int throat, int mouth, boolean singing){
+        // to make sure this runns
 
-        voiceExecutor.submit(()-> {
-                    synchronized (voice){
-                        System.out.println("Now im puttinig my money wher my mouth is");
-                        voice.speak(text);
+
+        this.pitch = pitch;
+        this.speed = speed;
+        this.throat = throat;
+        this.mouth = mouth;
+        this.singing = singing;
+
+//        if (voiceManager == null) {
+//            System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+//
+//            voiceManager = VoiceManager.getInstance();
+//        }
+//
+//        System.setProperty("com.sun.speech.freetts.voice.defaultPitch", String.valueOf(pitch));
+//        System.setProperty("com.sun.speech.freetts.voice.defaultRate", String.valueOf(rate));
+//        System.setProperty("com.sun.speech.freetts.voice.defaultPitchRange", String.valueOf(pitchRange));
+//
+//        this.voice = voiceManager.getVoice(voice);
+//
+//        if (this.voice != null) {
+//            this.voice.setPitch(pitch);
+//            this.voice.setRate(rate);
+//            this.voice.setPitchRange(pitchRange);
+//            this.voice.allocate();
+//        } else {
+//            System.err.println("Yo! uh '" + voice +"' isnt a real voice you can do! stupid baka...");
+//        }
+    }
+
+    public void SayText(String text) {
+        System.out.println(text);
+        if (sam == null || voiceExecutor == null) return;
+        if (voiceExecutor.isShutdown()) return;
+
+
+        voiceExecutor.submit(() -> {
+                    System.out.println("Im speaking know!");
+                    try {
+                        sam.say(text, speed, pitch, mouth, throat, singing);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
                     }
+            System.out.println("done owo");
                 }
         );
     }
@@ -84,7 +144,8 @@ public class VoiceSyth extends BaseAppState {
     @Override
     protected void cleanup(Application app) {
         if (voiceExecutor != null) voiceExecutor.shutdownNow();
-        if (voice != null) voice.deallocate();
+//        if (voice != null) voice.deallocate();
+        mary = null;
     }
 
     @Override
