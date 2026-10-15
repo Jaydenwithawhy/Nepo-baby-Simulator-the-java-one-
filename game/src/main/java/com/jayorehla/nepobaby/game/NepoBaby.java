@@ -58,7 +58,7 @@ public class NepoBaby extends SimpleApplication {
 
         timer =  stateManager.getApplication().getTimer();
 
-        flyCam.setMoveSpeed(4f);
+        flyCam.setMoveSpeed(0);
 
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);

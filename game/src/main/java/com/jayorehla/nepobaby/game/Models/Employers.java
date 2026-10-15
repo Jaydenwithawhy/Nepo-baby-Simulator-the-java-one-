@@ -95,15 +95,16 @@ public class Employers {
         stateManager.attach(Jvoice);
         stateManager.attach(Wvoice);
 
-        //TODO: make sure the voices sound good! i uh have no tested them so they may sound dookie
+
+        // overtime, i may reconsider the voices they are goofy but loveable (for know)
 
         // yes everyone is SAM
-        Lvoice.SetVoice( 60, 200, 200, 50,false);
-        Rvoice.SetVoice( 60, 200, 200, 50,false);
-        Cvoice.SetVoice( 60, 200, 200, 50,false);
-        Avoice.SetVoice( 60, 200, 200, 50,false);
-        Jvoice.SetVoice( 60, 200, 200, 50,false);
-        Wvoice.SetVoice( 60, 200, 200, 50,false);
+        Lvoice.SetVoice( 62, 72, 128, 170,false);
+        Rvoice.SetVoice( 203, 124, 210, 141,false);
+        Cvoice.SetVoice( 26, 72, 128, 128,false);
+        Avoice.SetVoice( 42, 127, 125, 162,false);
+        Jvoice.SetVoice( 74, 176, 182, 129,false);
+        Wvoice.SetVoice( 88, 66, 139, 225,false);
 
 
     }

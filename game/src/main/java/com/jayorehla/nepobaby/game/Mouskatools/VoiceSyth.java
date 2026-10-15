@@ -23,6 +23,9 @@ import java.util.concurrent.Executors;
 // It was made by Martin L on Github. https://github.com/the-thing/zam hes really cool
 // hopefully this puts an end to my TTS rabbit hole i went on and i could actually code
 
+// okay i tested it (im not deltaeing my old comets who do you think im am huh?) its so cool!
+// thanks Martin
+
 public class VoiceSyth extends BaseAppState {
 
     Voice voice;
