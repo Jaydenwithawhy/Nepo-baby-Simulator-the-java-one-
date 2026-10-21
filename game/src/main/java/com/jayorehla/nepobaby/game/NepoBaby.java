@@ -1,11 +1,16 @@
 package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.Cam;
+import com.jayorehla.nepobaby.game.Control.KeyBoard;
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
+import com.jayorehla.nepobaby.game.Models.Touchables;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
+import com.jayorehla.nepobaby.game.Ui.HonkShoo;
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.InputListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -42,6 +47,12 @@ public class NepoBaby extends SimpleApplication {
 
     VoiceSyth voiceSyth;
 
+    Touchables touchables;
+
+    KeyBoard keyBoard;
+
+    HonkShoo honkShoo;
+
     boolean yapping = false;
 
     public NepoBaby() {
@@ -53,18 +64,21 @@ public class NepoBaby extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
+//        Box b = new Box(1, 1, 1);
+//        Geometry geom = new Geometry("Box", b);
+
+        setDisplayFps(false);
+        setDisplayStatView(false);
 
         timer =  stateManager.getApplication().getTimer();
 
-        flyCam.setMoveSpeed(0);
+        flyCam.setMoveSpeed(4);
 
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
+//        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+//        mat.setColor("Color", ColorRGBA.Blue);
+//        geom.setMaterial(mat); im sorry defult box... your time has come
 
-        rootNode.attachChild(geom);
+//        rootNode.attachChild(geom);
 
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.White.mult(1.3f));
@@ -84,6 +98,12 @@ public class NepoBaby extends SimpleApplication {
         mickeyMouse = new MickeyMouse(inputManager);
         theOffice = new TheOffice(rootNode,assetManager);
         employers = new Employers(rootNode,assetManager,stateManager);
+        touchables = new Touchables(rootNode,assetManager);
+
+        honkShoo = new HonkShoo(assetManager,guiNode,settings);
+
+        keyBoard = new KeyBoard(inputManager);
+        keyBoard.init();
 
         voiceSyth = new VoiceSyth();
         stateManager.attach(voiceSyth);
@@ -98,11 +118,14 @@ public class NepoBaby extends SimpleApplication {
             yapping = true;
         }
         camera.MouseClicked = mickeyMouse.leftClick;
-        camera.update();
+        camera.Eclicked = keyBoard.lastKeyChara == KeyInput.KEY_E;
+        honkShoo.closeEyes = keyBoard.lastKeyChara == KeyInput.KEY_E;
+        camera.update(tpf);
+        honkShoo.Update(tpf);
 
         employers.Update(tpf);
 
-        //System.out.println(cam.getLocation());
+        System.out.println(cam.getRotation());
     }
 
 }

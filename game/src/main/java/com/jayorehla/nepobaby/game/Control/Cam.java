@@ -1,6 +1,8 @@
 package com.jayorehla.nepobaby.game.Control;
 
+import com.jayorehla.nepobaby.game.utls.PIDFController;
 import com.jme3.collision.CollisionResults;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -18,7 +20,16 @@ public class Cam {
 
     CollisionResults results;
 
+    int sleepstate = 0;
+    int awakestate = 0;
+
     public boolean MouseClicked; // I dont want to add mouse logic here because that kinda disorganized
+
+    public boolean Eclicked;
+
+
+    PIDFController headtranPIDF;
+    PIDFController headRollPIDF;
 
 
     String lookedAtThing;
@@ -38,12 +49,18 @@ public class Cam {
         ray = new Ray(cam.getLocation(),cam.getDirection());
         results = new CollisionResults();
         this.root = root;
+        headRollPIDF = new PIDFController(0.1,0,0);
+        headtranPIDF = new PIDFController(0.1,0,0);
     }
 
-    public void update(){
+    public void update(float tph){
         results.clear();
         ray.setDirection(cam.getDirection());
         root.collideWith(ray, results);
+
+        if(Eclicked){
+            sleepAction();
+        }
     }
 
     public String debug(){
@@ -66,5 +83,39 @@ public class Cam {
             }else return ThingsToLookAt.nothing;;
         }
         return ThingsToLookAt.nothing;
+    }
+
+    private void sleepAction(){
+        awakestate = 0;
+        switch (sleepstate){
+            case 0:
+                double movex = headtranPIDF.getOutput(cam.getLocation().x,0.1695178);
+                double movey = headtranPIDF.getOutput(cam.getLocation().y,2.511712);
+                double movez = headtranPIDF.getOutput(cam.getLocation().z,-1.1441668);
+
+                // seroiusly dude... what the hell is a quaderion
+//                double lookw = headRollPIDF.getOutput(cam.getRotation().getW(),-0.49166816);
+//                double lookx = headRollPIDF.getOutput(cam.getRotation().getX(),-0.43740118);
+//                double looky = headRollPIDF.getOutput(cam.getRotation().getY(),0.562561);
+//                double lookz = headRollPIDF.getOutput(cam.getRotation().getZ(),-0.5004676);
+
+                Quaternion targetRot = new Quaternion(-0.43740118f, 0.562561f, -0.5004676f, -0.49166816f);
+
+                Quaternion gotToRot = new Quaternion();
+                gotToRot.slerp(cam.getRotation(),targetRot,0.1f);
+                cam.setRotation(gotToRot);
+
+
+                cam.setLocation(new Vector3f((float) (cam.getLocation().x + movex), (float) (cam.getLocation().y + movey), (float) (cam.getLocation().z + movez)));
+
+                //cam.setRotation(new Quaternion((float) (cam.getRotation().getX() + lookx), (float) (cam.getRotation().getY() + looky), (float) (cam.getRotation().getZ() + lookz), (float) (cam.getRotation().getW() + lookw)));
+
+                if (Math.abs(cam.getLocation().x - 0.1695178) < 0.5 && Math.abs(cam.getLocation().y - 2.511712) < 0.5 && Math.abs(cam.getLocation().z - (-1.1441668)) < 0.5){
+                    sleepstate = 1;
+                }
+                break;
+            case 1:
+
+        }
     }
 }
