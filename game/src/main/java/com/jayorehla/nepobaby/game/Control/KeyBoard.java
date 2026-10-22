@@ -8,16 +8,24 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.event.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class KeyBoard implements RawInputListener {
 
 
     InputManager inputManager;
     public int lastKeyChara = -67;
+    public int lastKeyFrisk = -67;
+    public Set<Integer> lastKeyKris;
     public boolean keypressed= false;
     boolean keyheld;
 
     public KeyBoard(InputManager inputManager){
         this.inputManager = inputManager;
+        lastKeyKris = new HashSet<>();
     }
 
 
@@ -58,15 +66,17 @@ public class KeyBoard implements RawInputListener {
 
     @Override
     public void onKeyEvent(KeyInputEvent evt) {
-        if (evt.isPressed()) {
-            int code = evt.getKeyCode();
+        int code = evt.getKeyCode();
+        lastKeyFrisk = code;
+        if (code == KeyInput.KEY_UNKNOWN) return;// stray code-0 events
 
-            if (code != KeyInput.KEY_UNKNOWN && code != 0) {
-                lastKeyChara = code;
-                keypressed = true;
-            }
-        } else if (evt.isReleased()) {
+        if (evt.isPressed()) {
+            lastKeyChara = code;
+            keypressed = true;
+            lastKeyKris.add(code);
+        } else if (evt.isReleased() && code == lastKeyChara) {
             keypressed = false;
+            lastKeyKris.clear();
         }
 
     }

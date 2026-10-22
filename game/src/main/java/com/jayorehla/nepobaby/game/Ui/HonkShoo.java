@@ -38,6 +38,10 @@ public class HonkShoo {
         if(closeEyes){
             SleepState();
         }
+
+        if(OpenEyes){
+            AwakeState();
+        }
     }
 
     private void SleepState(){
@@ -76,6 +80,52 @@ public class HonkShoo {
                  eyelids.setImage(ass,"Textures/1.png", true);
                  break;
          }
+    }
+
+
+
+    private void AwakeState(){
+        sleepState = 0;
+        switch (awakeState){
+            case 0:
+                timer = 0;
+                awakeState = 1;
+                break;
+            case 1:
+                eyelids.setImage(ass, "Textures/1.png", true);
+                if(timer > ((double) 2 /12)) awakeState = 2;
+                break;
+            case 2:
+                timer = 0;
+                awakeState = 3;
+                break;
+            case 3:
+                eyelids.setImage(ass,"Textures/2.png", true);
+                if(timer > ((double) 2 /12)) awakeState = 4;
+                break;
+            case 4:
+                timer = 0;
+                awakeState = 5;
+                break;
+            case 5:
+                eyelids.setImage(ass,"Textures/3.png", true);
+                if(timer > ((double) 2 /12)) awakeState = 6;
+                break;
+            case 6:
+                timer = 0;
+                awakeState = 7;
+                break;
+            case 7:
+                eyelids.setImage(ass,"Textures/4.png", true);
+                if(timer > ((double) 2 /12)) awakeState = 8;
+                break;
+            case 8:
+                timer = 0;
+                awakeState = 9;
+                break;
+            case 9:
+                eyelids.setCullHint(Spatial.CullHint.Always);
+        }
     }
 
 

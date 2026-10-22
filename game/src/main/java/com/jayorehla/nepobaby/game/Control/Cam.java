@@ -27,6 +27,10 @@ public class Cam {
 
     public boolean Eclicked;
 
+    public boolean sleeping = false;
+
+    public float headRot = 1;
+
 
     PIDFController headtranPIDF;
     PIDFController headRollPIDF;
@@ -53,13 +57,17 @@ public class Cam {
         headtranPIDF = new PIDFController(0.1,0,0);
     }
 
-    public void update(float tph){
+    public void update(float tph, boolean donesleep){
         results.clear();
         ray.setDirection(cam.getDirection());
         root.collideWith(ray, results);
 
         if(Eclicked){
             sleepAction();
+        }
+
+        if(sleeping && sleepstate == 1 && donesleep){
+
         }
     }
 
@@ -115,6 +123,45 @@ public class Cam {
                 }
                 break;
             case 1:
+                headRot = 0;
+                sleeping = true;
+
+        }
+    }
+
+
+    private void AwakeAction(){
+        sleepstate = 0;
+        switch (awakestate){
+            case 0:
+                double movex = headtranPIDF.getOutput(cam.getLocation().x,2.1749218f);
+                double movey = headtranPIDF.getOutput(cam.getLocation().y,2.3135061f);
+                double movez = headtranPIDF.getOutput(cam.getLocation().z,-1.8647175f);
+
+                // seroiusly dude... what the hell is a quaderion
+//                double lookw = headRollPIDF.getOutput(cam.getRotation().getW(),-0.49166816);
+//                double lookx = headRollPIDF.getOutput(cam.getRotation().getX(),-0.43740118);
+//                double looky = headRollPIDF.getOutput(cam.getRotation().getY(),0.562561);
+//                double lookz = headRollPIDF.getOutput(cam.getRotation().getZ(),-0.5004676);
+
+                Quaternion targetRot = new Quaternion(0.03264319f, -0.5638806f, 0.022313379f, 0.82490915f);
+
+                Quaternion gotToRot = new Quaternion();
+                gotToRot.slerp(cam.getRotation(),targetRot,0.1f);
+                cam.setRotation(gotToRot);
+
+
+                cam.setLocation(new Vector3f((float) (cam.getLocation().x + movex), (float) (cam.getLocation().y + movey), (float) (cam.getLocation().z + movez)));
+
+                //cam.setRotation(new Quaternion((float) (cam.getRotation().getX() + lookx), (float) (cam.getRotation().getY() + looky), (float) (cam.getRotation().getZ() + lookz), (float) (cam.getRotation().getW() + lookw)));
+
+                if (Math.abs(cam.getLocation().x - 2.1749218f) < 0.5 && Math.abs(cam.getLocation().y - 2.3135061f) < 0.5 && Math.abs(cam.getLocation().z - (-1.8647175f)) < 0.5){
+                    awakestate = 1;
+                }
+                break;
+            case 1:
+                headRot = 0;
+                sleeping = true;
 
         }
     }

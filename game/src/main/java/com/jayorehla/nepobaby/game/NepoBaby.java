@@ -3,6 +3,7 @@ package com.jayorehla.nepobaby.game;
 import com.jayorehla.nepobaby.game.Control.Cam;
 import com.jayorehla.nepobaby.game.Control.KeyBoard;
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
+import com.jayorehla.nepobaby.game.Control.SleepList;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
@@ -52,6 +53,8 @@ public class NepoBaby extends SimpleApplication {
     KeyBoard keyBoard;
 
     HonkShoo honkShoo;
+
+    SleepList sleepList;
 
     boolean yapping = false;
 
@@ -108,6 +111,8 @@ public class NepoBaby extends SimpleApplication {
         voiceSyth = new VoiceSyth();
         stateManager.attach(voiceSyth);
 
+        sleepList = new SleepList();
+
         voiceSyth.SetVoice("kevin");
     }
 
@@ -120,12 +125,26 @@ public class NepoBaby extends SimpleApplication {
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyBoard.lastKeyChara == KeyInput.KEY_E;
         honkShoo.closeEyes = keyBoard.lastKeyChara == KeyInput.KEY_E;
-        camera.update(tpf);
+        camera.update(tpf,sleepList.SleepDone());
         honkShoo.Update(tpf);
+
+//        sleepList.letkeygo = keyBoard.lastKeyFrisk;
+
+        sleepList.theRoaringSet = keyBoard.lastKeyKris;
+
+        flyCam.setRotationSpeed(camera.headRot);
 
         employers.Update(tpf);
 
-        System.out.println(cam.getRotation());
+        if(camera.sleeping) {
+            sleepList.CreateList(3, tpf);
+            sleepList.Countup(keyBoard.lastKeyChara);
+        }else{
+            sleepList.ClearList();
+        }
+
+//        System.out.println(keyBoard.lastKeyKris);
+        System.out.println(sleepList.keysToType);
     }
 
 }
