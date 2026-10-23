@@ -66,8 +66,8 @@ public class Cam {
             sleepAction();
         }
 
-        if(sleeping && sleepstate == 1 && donesleep){
-
+        if(donesleep){
+            AwakeAction();
         }
     }
 
@@ -160,7 +160,7 @@ public class Cam {
                 }
                 break;
             case 1:
-                headRot = 0;
+                headRot = 1;
                 sleeping = true;
 
         }

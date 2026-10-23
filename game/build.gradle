@@ -18,6 +18,7 @@ dependencies {
     api libs.marrytts
     api libs.marryttsEn
     api libs.marryttsVoice
+    api libs.jmettf
 //    api libs.marryttsVoiceMan
 //    api libs.marryttsVoiceOther
 }

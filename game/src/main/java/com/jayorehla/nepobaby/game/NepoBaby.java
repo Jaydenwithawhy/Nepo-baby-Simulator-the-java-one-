@@ -9,6 +9,7 @@ import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Ui.HonkShoo;
+import com.jayorehla.nepobaby.game.Ui.SleepKeysUI;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -26,6 +27,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.app.state.AppState;
 import com.jme3.system.Timer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
@@ -53,6 +57,8 @@ public class NepoBaby extends SimpleApplication {
     KeyBoard keyBoard;
 
     HonkShoo honkShoo;
+
+    SleepKeysUI sleepKeysUI;
 
     SleepList sleepList;
 
@@ -102,7 +108,7 @@ public class NepoBaby extends SimpleApplication {
         theOffice = new TheOffice(rootNode,assetManager);
         employers = new Employers(rootNode,assetManager,stateManager);
         touchables = new Touchables(rootNode,assetManager);
-
+        sleepKeysUI = new SleepKeysUI(assetManager,guiNode);
         honkShoo = new HonkShoo(assetManager,guiNode,settings);
 
         keyBoard = new KeyBoard(inputManager);
@@ -125,8 +131,11 @@ public class NepoBaby extends SimpleApplication {
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyBoard.lastKeyChara == KeyInput.KEY_E;
         honkShoo.closeEyes = keyBoard.lastKeyChara == KeyInput.KEY_E;
-        camera.update(tpf,sleepList.SleepDone());
+        honkShoo.OpenEyes = sleepList.SleepDone(camera.sleeping);
+        camera.update(tpf,sleepList.SleepDone(camera.sleeping));
         honkShoo.Update(tpf);
+
+        sleepKeysUI.UpdateList(new ArrayList<>(sleepList.keysToType));
 
 //        sleepList.letkeygo = keyBoard.lastKeyFrisk;
 
@@ -136,6 +145,8 @@ public class NepoBaby extends SimpleApplication {
 
         employers.Update(tpf);
 
+        sleepKeysUI.PrintOut(camera.sleeping);
+
         if(camera.sleeping) {
             sleepList.CreateList(3, tpf);
             sleepList.Countup(keyBoard.lastKeyChara);
@@ -144,7 +155,7 @@ public class NepoBaby extends SimpleApplication {
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-        System.out.println(sleepList.keysToType);
+        System.out.println(sleepList.SleepDone(camera.sleeping));
     }
 
 }

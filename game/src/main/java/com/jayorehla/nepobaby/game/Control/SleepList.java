@@ -25,6 +25,8 @@ public class SleepList {
 
     boolean WDGaster = true;
 
+    boolean initalE = false;
+
     public SleepList(){
         sleepingkeys = new ArrayList<>();
         keysToType = new ArrayList<>();
@@ -59,11 +61,8 @@ public class SleepList {
         sleepingkeys.add(KeyInput.KEY_Z);
         sleepingkeys.add(KeyInput.KEY_SEMICOLON);
         sleepingkeys.add(KeyInput.KEY_APOSTROPHE);
-        sleepingkeys.add(KeyInput.KEY_COMMA);
         sleepingkeys.add(KeyInput.KEY_PERIOD);
         sleepingkeys.add(KeyInput.KEY_SLASH);
-        sleepingkeys.add(KeyInput.KEY_LBRACKET);
-        sleepingkeys.add(KeyInput.KEY_RBRACKET);
         sleepingkeys.add(KeyInput.KEY_1);
         sleepingkeys.add(KeyInput.KEY_2);
         sleepingkeys.add(KeyInput.KEY_3);
@@ -83,6 +82,7 @@ public class SleepList {
             currentStep = 0;
             counting = true;
             clear = true;
+            initalE = false;
         }
     }
 
@@ -99,10 +99,16 @@ public class SleepList {
     public void Countup(int currentKey){
         // hate. hate! HATE!!! Let me tell you how much i hated you since you began to live
 
-        if (currentStep <= keysToType.size() && theRoaringSet.isEmpty() && WDGaster) {
+        System.out.println(initalE);
+        if(theRoaringSet.contains(18) && WDGaster && !initalE){
+            initalE = true;
+            WDGaster = false;
+        }
+
+        if (!keysToType.isEmpty() && theRoaringSet.isEmpty() && WDGaster && initalE) {
             counting = false;
             System.out.println("Im tung tung sahere");
-            if(currentKey == keysToType.get(currentStep)) currentStep += 1;
+            if(currentKey == keysToType.get(currentStep)) keysToType.removeFirst();
             else keysToType.add(sleepingkeys.get(randomguy.nextInt(0,sleepingkeys.size())));
             WDGaster = false;
         }
@@ -113,7 +119,7 @@ public class SleepList {
 
     }
 
-    public boolean SleepDone(){
-        return currentStep >= sleepingkeys.size();
+    public boolean SleepDone(boolean sleeping){
+        return keysToType.isEmpty() && sleeping;
     }
 }
