@@ -141,7 +141,7 @@ public class NepoBaby extends SimpleApplication {
 
         sleepList.theRoaringSet = keyBoard.lastKeyKris;
 
-        sleepList.debug();
+//        sleepList.debug();
 
         flyCam.setRotationSpeed(camera.headRot);
 
@@ -158,7 +158,7 @@ public class NepoBaby extends SimpleApplication {
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-//        System.out.println(sleepList.SleepDone(camera.sleeping));
+//        System.out.println(employers.goonertimer);
     }
 
 }

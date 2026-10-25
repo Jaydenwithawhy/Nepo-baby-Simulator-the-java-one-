@@ -45,6 +45,8 @@ public class VoiceSyth extends BaseAppState {
 
      boolean singing = false;
 
+     public boolean ispeaking = false;
+
     @Override
     protected void initialize(Application app) {
         // this inits the voice i think Im lowkirkgenually folloing a guide. i dont know everything...
@@ -130,7 +132,7 @@ public class VoiceSyth extends BaseAppState {
         System.out.println(text);
         if (sam == null || voiceExecutor == null) return;
         if (voiceExecutor.isShutdown()) return;
-
+        ispeaking = true;
 
         voiceExecutor.submit(() -> {
                     System.out.println("Im speaking know!");
@@ -138,9 +140,11 @@ public class VoiceSyth extends BaseAppState {
                         sam.say(text, speed, pitch, mouth, throat, singing);
                     } catch (LineUnavailableException e) {
                         throw new RuntimeException(e);
+                    }finally {
+                        ispeaking = false;
                     }
             System.out.println("done owo");
-                }
+        }
         );
     }
 

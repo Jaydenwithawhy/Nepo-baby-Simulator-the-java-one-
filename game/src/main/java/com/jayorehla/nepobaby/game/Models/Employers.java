@@ -35,6 +35,14 @@ public class Employers {
     PIDFController zPidf;
     public double timer;
 
+    public double goonertimer;
+
+    public int stroketime;
+
+    private boolean setStroke;
+
+    private boolean spoke = false;
+    private boolean iHaveNoMouthButImustScream = false;
     Random random; // he can do anything!
 
     String currentEmployee = "No One";
@@ -151,6 +159,7 @@ public class Employers {
 
     public void Update(float tpf){
         timer += tpf;
+        goonertimer += tpf;
         if (timer >= 5 && currentEmployee == "No One"){
             step = 0;
             employeeTime =false;
@@ -198,6 +207,7 @@ public class Employers {
 
             switch (step){
                 case 0:
+                    setStroke = false;
                     targetx = -2.5f;
                     targetz = 3.5f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
@@ -224,38 +234,118 @@ public class Employers {
                     dash.move(new Vector3f((float) xpower * tpf,0, (float) zpower * tpf));
 
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1 && Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1 ){
+                        employeeTime  = true;
+                        timer = 0;
+                        spoke = false;
+                        iHaveNoMouthButImustScream = false;
+
                         step = 2;
                     }
                     break;
                 case 2:
+                    if(!setStroke){
+                        stroketime = random.nextInt(1,4);
+                        setStroke = true;
+                    }
                     switch (currentEmployee){
                         case "Lothario Casanova the E-mail guy":
-                            Lvoice.SayText("My Favorite employer!");
-                            step = 3;
+                             if(!iHaveNoMouthButImustScream){
+                                 Lvoice.SayText(voiceOptions.get(random.nextInt(0,2)));
+                                 iHaveNoMouthButImustScream = true;
+                             }
+                             if (!Lvoice.ispeaking){
+                                 goonertimer = 0;
+                                 spoke = true;
+                             }
                             break;
                         case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
-                            Rvoice.SayText("I am Roberto 'Za Robair' Robyn Roby Robinder Robbie Robertson Za Third! I'm here to rob you!");
-                            step = 3;
+                            if(!iHaveNoMouthButImustScream){
+                                Rvoice.SayText(voiceOptions.get(random.nextInt(3,5)));
+                                iHaveNoMouthButImustScream = true;
+                            }
+                            if (!Rvoice.ispeaking){
+                                goonertimer = 0;
+                                spoke = true;
+                            }
                             break;
                         case "The Cats":
-                            Cvoice.SayText("Meow meow mew meowmeow");
-                            step = 3;
+                            if(!iHaveNoMouthButImustScream) {
+                                Cvoice.SayText(voiceOptions.get(random.nextInt(6, 7)));
+                                iHaveNoMouthButImustScream = true;
+                            }
+                            if (!Cvoice.ispeaking){
+                                goonertimer = 0;
+                                spoke = true;
+                            }
                             break;
                         case "Amora the Secretary":
-                            Avoice.SayText("Sir, we have many files for you to sign");
-                            step = 3;
+                            if(!iHaveNoMouthButImustScream) {
+                                Avoice.SayText(voiceOptions.get(random.nextInt(8, 9)));
+                                iHaveNoMouthButImustScream = true;
+                            }
+                            if (!Avoice.ispeaking){
+                                goonertimer = 0;
+                                spoke = true;
+                            }
                             break;
                         case "Janitorial Jimmy":
-                            Jvoice.SayText("OI LADDY! MATE! OI! OI! OI! THIS PLACE IS A FRUGGING MESS LADDY! WHAT THE BLOODY HELL");
-                            step = 3;
+                            if(!iHaveNoMouthButImustScream) {
+                                Jvoice.SayText(voiceOptions.get(random.nextInt(10, 12)));
+                                iHaveNoMouthButImustScream = true;
+                            }
+                            if (!Jvoice.ispeaking){
+                                goonertimer = 0;
+                                spoke = true;
+                            }
+
                             break;
                         case "Archey 'Arch' Winicks the Computer Technician":
-                            Wvoice.SayText("I think your computer rm -rf / itself");
-                            step = 3;
+                            if(!iHaveNoMouthButImustScream) {
+                                Wvoice.SayText(voiceOptions.get(random.nextInt(13, 15)));
+                                iHaveNoMouthButImustScream = true;
+                            }
+                            if (!Wvoice.ispeaking){
+                                goonertimer = 0;
+                                spoke = true;
+                            }
                             break;
+                    }
+                    if(timer > stroketime && spoke){
+                        System.out.println(spoke);
+                        step = 3;
                     }
                     break;
                 case 3:
+                    setStroke = false;
+                    targetx = -2.5f;
+                    targetz = 3.5f;
+                    if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
+                    else xpower = xPidf.getOutput(dash.getWorldTransform().getTranslation().x, targetx);
+
+                    if(Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1) zpower = 0;
+                    else zpower = zPidf.getOutput(dash.getWorldTransform().getTranslation().z, targetz);
+
+                    dash.move(new Vector3f((float) xpower * tpf,0, (float) zpower * tpf));
+
+                    if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1 && Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1 ){
+                        step = 4;
+                    }
+                    break;
+                case 4:
+                    targetx = -7.5f;
+                    targetz = -0.7f;
+                    if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
+                    else xpower = xPidf.getOutput(dash.getWorldTransform().getTranslation().x, targetx);
+
+                    if(Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1) zpower = 0;
+                    else zpower = zPidf.getOutput(dash.getWorldTransform().getTranslation().z, targetz);
+
+                    dash.move(new Vector3f((float) xpower * tpf,0, (float) zpower * tpf));
+
+                    if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1 && Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1 ){
+                        employeeTime  = false;
+                        currentEmployee = "No One";
+                    }
                     break;
             }
 
