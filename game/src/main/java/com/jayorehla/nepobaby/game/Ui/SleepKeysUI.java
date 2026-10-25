@@ -41,7 +41,7 @@ public class SleepKeysUI {
         this.guinode = guiroot;
 
         ass.registerLoader(TrueTypeLoader.class,"ttf");
-        newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 24);
+        newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 25);
         ttfFont = (TrueTypeFont) ass.loadAsset(newTimeBaq);
 
         sleepKeys = new ArrayList<>();

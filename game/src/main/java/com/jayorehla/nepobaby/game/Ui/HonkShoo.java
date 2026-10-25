@@ -18,6 +18,8 @@ public class HonkShoo {
     private int awakeState;
     private int sleepState;
 
+    private boolean opening = false;
+
     double timer;
 
     public HonkShoo(AssetManager ass, Node guiNode, AppSettings settings){
@@ -35,11 +37,13 @@ public class HonkShoo {
 
     public void Update(float tph){
          timer += tph;
+        if (OpenEyes) opening = true;
+
         if(closeEyes){
             SleepState();
         }
 
-        if(OpenEyes){
+        if(opening){
             AwakeState();
         }
     }
@@ -125,6 +129,7 @@ public class HonkShoo {
                 break;
             case 9:
                 eyelids.setCullHint(Spatial.CullHint.Always);
+                opening = false;
         }
     }
 

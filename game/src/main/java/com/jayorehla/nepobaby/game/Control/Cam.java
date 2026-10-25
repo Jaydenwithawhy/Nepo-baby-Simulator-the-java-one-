@@ -161,7 +161,7 @@ public class Cam {
                 break;
             case 1:
                 headRot = 1;
-                sleeping = true;
+                sleeping = false;
 
         }
     }

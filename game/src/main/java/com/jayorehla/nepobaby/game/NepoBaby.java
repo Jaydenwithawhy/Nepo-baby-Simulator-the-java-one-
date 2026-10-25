@@ -130,8 +130,8 @@ public class NepoBaby extends SimpleApplication {
         }
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyBoard.lastKeyChara == KeyInput.KEY_E;
-        honkShoo.closeEyes = keyBoard.lastKeyChara == KeyInput.KEY_E;
-        honkShoo.OpenEyes = sleepList.SleepDone(camera.sleeping);
+        honkShoo.closeEyes = camera.sleeping || camera.Eclicked;
+        honkShoo.OpenEyes  = sleepList.SleepDone(camera.sleeping);
         camera.update(tpf,sleepList.SleepDone(camera.sleeping));
         honkShoo.Update(tpf);
 
@@ -140,6 +140,8 @@ public class NepoBaby extends SimpleApplication {
 //        sleepList.letkeygo = keyBoard.lastKeyFrisk;
 
         sleepList.theRoaringSet = keyBoard.lastKeyKris;
+
+        sleepList.debug();
 
         flyCam.setRotationSpeed(camera.headRot);
 
@@ -152,10 +154,11 @@ public class NepoBaby extends SimpleApplication {
             sleepList.Countup(keyBoard.lastKeyChara);
         }else{
             sleepList.ClearList();
+            sleepList.InitalE(keyBoard.lastKeyChara);
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-        System.out.println(sleepList.SleepDone(camera.sleeping));
+//        System.out.println(sleepList.SleepDone(camera.sleeping));
     }
 
 }

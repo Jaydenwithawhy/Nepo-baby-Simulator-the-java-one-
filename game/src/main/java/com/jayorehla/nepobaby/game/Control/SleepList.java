@@ -19,6 +19,8 @@ public class SleepList {
 
     private boolean counting = true;
 
+    private boolean numbers = false;
+
     public int letkeygo;
 
     public Set<Integer> theRoaringSet;
@@ -26,6 +28,10 @@ public class SleepList {
     boolean WDGaster = true;
 
     boolean initalE = false;
+
+    int counter;
+
+    int desirednumber;
 
     public SleepList(){
         sleepingkeys = new ArrayList<>();
@@ -79,10 +85,15 @@ public class SleepList {
         if(!clear) {
             keysToType.clear();
             keysToType.add(sleepingkeys.get(randomguy.nextInt(0,sleepingkeys.size())));
-            currentStep = 0;
             counting = true;
-            clear = true;
             initalE = false;
+            desirednumber = Integer.MAX_VALUE;
+            counter = 0;
+            numbers = false;
+            WDGaster = true;
+
+            clear = true;
+
         }
     }
 
@@ -96,20 +107,37 @@ public class SleepList {
         }
     }
 
-    public void Countup(int currentKey){
-        // hate. hate! HATE!!! Let me tell you how much i hated you since you began to live
-
-        System.out.println(initalE);
-        if(theRoaringSet.contains(18) && WDGaster && !initalE){
+    public void InitalE( int E){
+        if(E == 18 && theRoaringSet.isEmpty() && WDGaster && !initalE){
             initalE = true;
             WDGaster = false;
         }
+    }
+
+    public void debug(){
+        System.out.println("initalE=" + initalE + " set=" + theRoaringSet
+                + " WD=" + WDGaster + " list=" + keysToType
+                + " counter=" + counter + "/" + desirednumber);
+    }
+
+    public void Countup(int currentKey){
+        // hate. hate! HATE!!! Let me tell you how much i hated you since you began to live
 
         if (!keysToType.isEmpty() && theRoaringSet.isEmpty() && WDGaster && initalE) {
             counting = false;
-            System.out.println("Im tung tung sahere");
-            if(currentKey == keysToType.get(currentStep)) keysToType.removeFirst();
-            else keysToType.add(sleepingkeys.get(randomguy.nextInt(0,sleepingkeys.size())));
+            if(!numbers){
+                counter = 0;
+                desirednumber = keysToType.size();
+                numbers = true;
+            }
+            if(currentKey == keysToType.get(0)){
+                keysToType.remove(0);
+                counter += 1;
+            }
+            else {
+                keysToType.add(sleepingkeys.get(randomguy.nextInt(0, sleepingkeys.size())));
+                desirednumber += 1;
+            }
             WDGaster = false;
         }
 
@@ -119,7 +147,9 @@ public class SleepList {
 
     }
 
+
+
     public boolean SleepDone(boolean sleeping){
-        return keysToType.isEmpty() && sleeping;
+        return counter >= desirednumber;
     }
 }
