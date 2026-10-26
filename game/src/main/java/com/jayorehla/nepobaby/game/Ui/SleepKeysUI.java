@@ -36,17 +36,21 @@ public class SleepKeysUI {
 
     String lastRenderedText;
 
-    public SleepKeysUI(AssetManager ass,Node guiroot ){
+    Text text;
+
+    public SleepKeysUI(AssetManager ass,Node guiroot, Text text){
         this.ass = ass;
         this.guinode = guiroot;
 
-        ass.registerLoader(TrueTypeLoader.class,"ttf");
-        newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 25);
-        ttfFont = (TrueTypeFont) ass.loadAsset(newTimeBaq);
+        this.text = text;
+
+//        ass.registerLoader(TrueTypeLoader.class,"ttf");
+//        newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 25);
+//        ttfFont = (TrueTypeFont) ass.loadAsset(newTimeBaq);
 
         sleepKeys = new ArrayList<>();
 
-        node = ttfFont.getText("", 0, ColorRGBA.White);
+        node = text.ttfFont.getText("", 0, ColorRGBA.White);
         node.setLocalTranslation(500f, 500f, 1f);
         node.setQueueBucket(com.jme3.renderer.queue.RenderQueue.Bucket.Gui);
         node.setCullHint(Spatial.CullHint.Always);
@@ -112,24 +116,22 @@ public class SleepKeysUI {
         if(sleeping){
             String targetText = sleepKeys.toString().replace("[", "").replace("]", "");
 
-            // Only recreate geometry if the button sequence actually changed!
+
             if (!targetText.equals(lastRenderedText)) {
                 if (node != null) {
-                    guinode.detachChild(node); // Drop old "gya" or old list
+                    guinode.detachChild(node);
                 }
 
-                // Generate completely pristine layout vectors
-                node = ttfFont.getText(targetText, 0, ColorRGBA.White);
+                node = text.ttfFont.getText(targetText, 0, ColorRGBA.White);
                 node.setLocalTranslation(500f, 500f, 1f);
                 node.setQueueBucket(com.jme3.renderer.queue.RenderQueue.Bucket.Gui);
 
-                // CRITICAL FIX: Make sure it's set to Inherit so it draws immediately!
+
                 node.setCullHint(Spatial.CullHint.Inherit);
 
                 guinode.attachChild(node);
                 lastRenderedText = targetText;
             } else {
-                // Ensure it stays visible if text didn't change this frame
                 node.setCullHint(Spatial.CullHint.Inherit);
             }
         }else {

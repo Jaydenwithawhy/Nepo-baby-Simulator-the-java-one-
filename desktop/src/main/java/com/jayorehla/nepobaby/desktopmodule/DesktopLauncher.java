@@ -13,7 +13,7 @@ public class DesktopLauncher {
 
         final AppSettings appSettings = new AppSettings(true);
 
-        appSettings.setFullscreen(false); // thes an isuse where this chages the aspect ratio of the computer. a big no no
+        appSettings.setFullscreen(true); // thes an isuse where this chages the aspect ratio of the computer. a big no no
         appSettings.setGraphicsDebug(false);
         appSettings.setHeight(1080);
         appSettings.setWidth(1080); //square

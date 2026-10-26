@@ -27,6 +27,8 @@ public class Cam {
 
     public boolean Eclicked;
 
+    public boolean eeppy = false;
+
     public boolean sleeping = false;
 
     public float headRot = 1;
@@ -63,6 +65,10 @@ public class Cam {
         root.collideWith(ray, results);
 
         if(Eclicked){
+            eeppy = true;
+        }
+
+        if(eeppy){
             sleepAction();
         }
 
@@ -125,6 +131,7 @@ public class Cam {
             case 1:
                 headRot = 0;
                 sleeping = true;
+                eeppy = false;
 
         }
     }

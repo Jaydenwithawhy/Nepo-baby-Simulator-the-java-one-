@@ -11,6 +11,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
+import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioData.DataType;
 
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class Employers {
     Node root;
     Material mat;
 
+    AudioNode audioNode;
+
     List<String> voiceOptions;
 
     PIDFController xPidf;
@@ -40,6 +44,11 @@ public class Employers {
     public int stroketime;
 
     private boolean setStroke;
+
+    public int dockSatifation = 0;
+
+    public boolean goodboy;
+    public boolean goodboypoints;
 
     private boolean spoke = false;
     private boolean iHaveNoMouthButImustScream = false;
@@ -82,6 +91,12 @@ public class Employers {
         root.attachChild(dash);
 
         random = new Random();
+
+        audioNode = new AudioNode(ass,"Sounds/Footsteps.wav");
+        audioNode.setVolume(2);
+        audioNode.setPositional(false);
+        root.attachChild(audioNode);
+        audioNode.setLooping(true);
 
         //these are normal names you give normal people
         employeeList = new ArrayList<>();
@@ -157,7 +172,7 @@ public class Employers {
         return currentNumber;
     }
 
-    public void Update(float tpf){
+    public void Update(float tpf, boolean sleeping){
         timer += tpf;
         goonertimer += tpf;
         if (timer >= 5 && currentEmployee == "No One"){
@@ -208,6 +223,8 @@ public class Employers {
             switch (step){
                 case 0:
                     setStroke = false;
+                    goodboy = true;
+                    audioNode.play();
                     targetx = -2.5f;
                     targetz = 3.5f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
@@ -217,6 +234,7 @@ public class Employers {
                     else zpower = zPidf.getOutput(dash.getWorldTransform().getTranslation().z, targetz);
 
                     dash.move(new Vector3f((float) xpower * tpf,0, (float) zpower * tpf));
+
 
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1 && Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1 ){
                         step = 1;
@@ -238,6 +256,9 @@ public class Employers {
                         timer = 0;
                         spoke = false;
                         iHaveNoMouthButImustScream = false;
+                        goodboypoints = true;
+
+                        audioNode.stop();
 
                         step = 2;
                     }
@@ -310,13 +331,27 @@ public class Employers {
                             }
                             break;
                     }
+                    if(sleeping){
+                        dockSatifation = -1;
+                        goodboy = false;
+                    }else{
+                        dockSatifation = 0;
+                    }
                     if(timer > stroketime && spoke){
                         System.out.println(spoke);
                         step = 3;
                     }
                     break;
                 case 3:
+                    if(goodboy && goodboypoints){
+                        dockSatifation = 20;
+                        goodboypoints = false;
+                    }
+                    step = 4;
+                    break;
+                case 4:
                     setStroke = false;
+                    dockSatifation = 0;
                     targetx = -2.5f;
                     targetz = 3.5f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
@@ -328,10 +363,10 @@ public class Employers {
                     dash.move(new Vector3f((float) xpower * tpf,0, (float) zpower * tpf));
 
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1 && Math.abs(dash.getWorldTransform().getTranslation().z - targetz) <= 1 ){
-                        step = 4;
+                        step = 5;
                     }
                     break;
-                case 4:
+                case 5:
                     targetx = -7.5f;
                     targetz = -0.7f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;

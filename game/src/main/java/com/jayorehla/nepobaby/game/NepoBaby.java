@@ -1,15 +1,11 @@
 package com.jayorehla.nepobaby.game;
 
-import com.jayorehla.nepobaby.game.Control.Cam;
-import com.jayorehla.nepobaby.game.Control.KeyBoard;
-import com.jayorehla.nepobaby.game.Control.MickeyMouse;
-import com.jayorehla.nepobaby.game.Control.SleepList;
+import com.jayorehla.nepobaby.game.Control.*;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
-import com.jayorehla.nepobaby.game.Ui.HonkShoo;
-import com.jayorehla.nepobaby.game.Ui.SleepKeysUI;
+import com.jayorehla.nepobaby.game.Ui.*;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -50,17 +46,24 @@ public class NepoBaby extends SimpleApplication {
 
     Timer timer;
 
+    SleepTimer sleepTimer;
+
     VoiceSyth voiceSyth;
 
     Touchables touchables;
 
     KeyBoard keyBoard;
 
+    KeyboarE keyboarE;
+
     HonkShoo honkShoo;
 
     SleepKeysUI sleepKeysUI;
 
     SleepList sleepList;
+
+    Satifaction satifaction;
+    Text text;
 
     boolean yapping = false;
 
@@ -81,7 +84,7 @@ public class NepoBaby extends SimpleApplication {
 
         timer =  stateManager.getApplication().getTimer();
 
-        flyCam.setMoveSpeed(4);
+        flyCam.setMoveSpeed(0);
 
 //        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 //        mat.setColor("Color", ColorRGBA.Blue);
@@ -108,16 +111,25 @@ public class NepoBaby extends SimpleApplication {
         theOffice = new TheOffice(rootNode,assetManager);
         employers = new Employers(rootNode,assetManager,stateManager);
         touchables = new Touchables(rootNode,assetManager);
-        sleepKeysUI = new SleepKeysUI(assetManager,guiNode);
+
+        text = new Text(assetManager,guiNode);
+        sleepKeysUI = new SleepKeysUI(assetManager,guiNode,text);
         honkShoo = new HonkShoo(assetManager,guiNode,settings);
+
+        sleepTimer = new SleepTimer(assetManager,guiNode,text);
 
         keyBoard = new KeyBoard(inputManager);
         keyBoard.init();
+
+        keyboarE = new KeyboarE(inputManager);
+        keyboarE.init();
 
         voiceSyth = new VoiceSyth();
         stateManager.attach(voiceSyth);
 
         sleepList = new SleepList();
+
+        satifaction = new Satifaction(assetManager,guiNode,text);
 
         voiceSyth.SetVoice("kevin");
     }
@@ -129,9 +141,9 @@ public class NepoBaby extends SimpleApplication {
             yapping = true;
         }
         camera.MouseClicked = mickeyMouse.leftClick;
-        camera.Eclicked = keyBoard.lastKeyChara == KeyInput.KEY_E;
-        honkShoo.closeEyes = camera.sleeping || camera.Eclicked;
-        honkShoo.OpenEyes  = sleepList.SleepDone(camera.sleeping);
+        camera.Eclicked = keyboarE.lastKeyKris.contains(18);
+        honkShoo.closeEyes = camera.sleeping || keyboarE.lastKeyKris.contains(18);
+        honkShoo.OpenEyes  = sleepList.SleepDone(camera.sleeping) || !camera.sleeping;
         camera.update(tpf,sleepList.SleepDone(camera.sleeping));
         honkShoo.Update(tpf);
 
@@ -141,24 +153,26 @@ public class NepoBaby extends SimpleApplication {
 
         sleepList.theRoaringSet = keyBoard.lastKeyKris;
 
-//        sleepList.debug();
+        sleepList.debug();
 
         flyCam.setRotationSpeed(camera.headRot);
 
-        employers.Update(tpf);
+        employers.Update(tpf,camera.sleeping);
 
         sleepKeysUI.PrintOut(camera.sleeping);
+        sleepTimer.PrintOut(camera.sleeping,sleepList.counter,tpf);
+        satifaction.PrintOut(employers.dockSatifation,employers.goodboy,employers.goodboypoints);
 
         if(camera.sleeping) {
-            sleepList.CreateList(3, tpf);
+            sleepList.CreateList(1, tpf);
             sleepList.Countup(keyBoard.lastKeyChara);
         }else{
             sleepList.ClearList();
-            sleepList.InitalE(keyBoard.lastKeyChara);
+//            sleepList.InitalE(keyboarE.lastKeyChara);
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-//        System.out.println(employers.goonertimer);
+        System.out.println(camera.sleeping);
     }
 
 }

@@ -68,7 +68,7 @@ public class KeyBoard implements RawInputListener {
     public void onKeyEvent(KeyInputEvent evt) {
         int code = evt.getKeyCode();
         lastKeyFrisk = code;
-        if (code == KeyInput.KEY_UNKNOWN) return;// stray code-0 events
+        if (code == KeyInput.KEY_UNKNOWN ||code == KeyInput.KEY_E) return;// stray code-0 events
 
         if (evt.isPressed()) {
             lastKeyChara = code;

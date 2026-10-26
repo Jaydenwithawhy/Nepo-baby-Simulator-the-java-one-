@@ -29,7 +29,8 @@ public class SleepList {
 
     boolean initalE = false;
 
-    int counter;
+    public int counter;
+    boolean sawKey;
 
     int desirednumber;
 
@@ -43,7 +44,7 @@ public class SleepList {
         sleepingkeys.add(KeyInput.KEY_B);
         sleepingkeys.add(KeyInput.KEY_C);
         sleepingkeys.add(KeyInput.KEY_D);
-        sleepingkeys.add(KeyInput.KEY_E);
+//        sleepingkeys.add(KeyInput.KEY_E);
         sleepingkeys.add(KeyInput.KEY_F);
         sleepingkeys.add(KeyInput.KEY_G);
         sleepingkeys.add(KeyInput.KEY_H);
@@ -98,21 +99,24 @@ public class SleepList {
     }
 
     public void CreateList(int speed, float tph){
+        System.out.println("I am the roaring fickin king the roaring fiking king ");
         clear = false;
         timer += tph;
 
         if(timer >= speed && counting){
+            System.out.println("And I hate tv time");
             keysToType.add(sleepingkeys.get(randomguy.nextInt(0,sleepingkeys.size())));
             timer =  0;
         }
     }
 
-    public void InitalE( int E){
-        if(E == 18 && theRoaringSet.isEmpty() && WDGaster && !initalE){
-            initalE = true;
-            WDGaster = false;
-        }
-    }
+//    public void InitalE(int E){
+//        System.out.println(E);
+//        if(E == 18 && theRoaringSet.isEmpty() && WDGaster && !initalE){
+//            initalE = true;
+//            WDGaster = false;
+//        }
+//    }
 
     public void debug(){
         System.out.println("initalE=" + initalE + " set=" + theRoaringSet
@@ -123,22 +127,45 @@ public class SleepList {
     public void Countup(int currentKey){
         // hate. hate! HATE!!! Let me tell you how much i hated you since you began to live
 
-        if (!keysToType.isEmpty() && theRoaringSet.isEmpty() && WDGaster && initalE) {
-            counting = false;
-            if(!numbers){
-                counter = 0;
-                desirednumber = keysToType.size();
-                numbers = true;
-            }
-            if(currentKey == keysToType.get(0)){
-                keysToType.remove(0);
-                counter += 1;
-            }
-            else {
-                keysToType.add(sleepingkeys.get(randomguy.nextInt(0, sleepingkeys.size())));
-                desirednumber += 1;
-            }
-            WDGaster = false;
+        if (!theRoaringSet.isEmpty()) {
+            sawKey = true;
+            return;
+        }
+        if (!sawKey || keysToType.isEmpty()) return;
+        sawKey = false;
+
+        counting = false;
+        if (!numbers) {
+            counter = 0;
+            desirednumber = keysToType.size();
+            numbers = true;
+        }
+        if (currentKey == keysToType.get(0)) {
+            keysToType.remove(0);
+            counter++;
+        } else {
+            keysToType.add(sleepingkeys.get(randomguy.nextInt(sleepingkeys.size())));
+            desirednumber++;
+        }if (!theRoaringSet.isEmpty()) {
+            sawKey = true;
+            return;
+        }
+        if (!sawKey || keysToType.isEmpty()) return;
+        sawKey = false;
+
+        counting = false;
+        if (!numbers) {
+            counter = 0;
+            desirednumber = keysToType.size();
+            numbers = true;
+        }
+        // if you see this void, make it feel shame. it disgust me how much tweaking it needs it make me tweak
+        if (currentKey == keysToType.get(0)) {
+            keysToType.remove(0);
+            counter++;
+        } else {
+            keysToType.add(sleepingkeys.get(randomguy.nextInt(sleepingkeys.size())));
+            desirednumber++;
         }
 
         if( !theRoaringSet.isEmpty() && !WDGaster){
