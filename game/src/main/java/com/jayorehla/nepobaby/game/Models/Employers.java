@@ -185,34 +185,33 @@ public class Employers {
     public void Update(float tpf, boolean sleeping){
         timer += tpf;
         goonertimer += tpf;
-        currentEmployee = employeeList.get(5);
-//        if (timer >= 5 && currentEmployee == "No One"){
-//            step = 0;
-//            employeeTime =false;
-//            int randEmployee = random.nextInt(0,100);
-//           if (randEmployee <= 30){
-//               currentEmployee = "No One";
-//               timer = 0;
-//           }else if(randEmployee > 30 && randEmployee < 40 ){
-//               currentEmployee = employeeList.get(0);
-//           }
-//           else if(randEmployee > 40 && randEmployee < 50 ){
-//               currentEmployee = employeeList.get(1);
-//           }
-//           else if(randEmployee > 50 && randEmployee < 60){
-//               currentEmployee = employeeList.get(2);
-//           }
-//           else if(randEmployee > 60 && randEmployee < 70 ){
-//               currentEmployee = employeeList.get(3);
-//           }
-//           else if(randEmployee > 80 && randEmployee < 90 ){
-//               currentEmployee = employeeList.get(4);
-//           }
-//           else if(randEmployee > 90 && randEmployee < 100 ){
-//               currentEmployee = employeeList.get(5);
-//           }
-//            timer = 0;
-//        }
+        if (timer >= 5 && currentEmployee == "No One"){
+            step = 0;
+            employeeTime =false;
+            int randEmployee = random.nextInt(0,100);
+           if (randEmployee <= 30){
+               currentEmployee = "No One";
+               timer = 0;
+           }else if(randEmployee > 30 && randEmployee < 40 ){
+               currentEmployee = employeeList.get(0);
+           }
+           else if(randEmployee > 40 && randEmployee < 50 ){
+               currentEmployee = employeeList.get(1);
+           }
+           else if(randEmployee > 50 && randEmployee < 60){
+               currentEmployee = employeeList.get(2);
+           }
+           else if(randEmployee > 60 && randEmployee < 70 ){
+               currentEmployee = employeeList.get(3);
+           }
+           else if(randEmployee > 80 && randEmployee < 90 ){
+               currentEmployee = employeeList.get(4);
+           }
+           else if(randEmployee > 90 && randEmployee < 100 ){
+               currentEmployee = employeeList.get(5);
+           }
+            timer = 0;
+        }
 
         if(currentEmployee != "No One" ){
             //man I wish I could set the thing to be the list rather than copying over the names...
