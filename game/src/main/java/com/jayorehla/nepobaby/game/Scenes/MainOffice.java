@@ -1,4 +1,4 @@
-package com.jayorehla.nepobaby.game;
+package com.jayorehla.nepobaby.game.Scenes;
 
 import com.jayorehla.nepobaby.game.Control.*;
 import com.jayorehla.nepobaby.game.Models.Employers;
@@ -6,35 +6,29 @@ import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Ui.*;
+import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
-import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.InputListener;
+import com.jme3.app.state.AppStateManager;
+import com.jme3.app.state.BaseAppState;
+import com.jme3.asset.AssetManager;
+import com.jme3.input.InputManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.light.LightProbe;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
-import com.jme3.app.state.AppState;
 import com.jme3.system.Timer;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
- * Custom states {@link com.jme3.app.state.BaseAppState}, Custom controls {@link com.jme3.scene.control.AbstractControl}
- * and your custom entities implementations of the previous.
- *
- */
-public class NepoBaby extends SimpleApplication {
+// in therory eerything in there comes here
 
+public class MainOffice extends BaseAppState {
+
+    public Node localMainroot;
+
+    public Node localguiroot;
 
     Cam camera;
 
@@ -65,58 +59,48 @@ public class NepoBaby extends SimpleApplication {
     Satifaction satifaction;
     Text text;
 
-    boolean yapping = false;
-
-    public NepoBaby() {
-    }
-
-    public NepoBaby(AppState... initialStates) {
-        super(initialStates);
-    }
+    SimpleApplication sa;
 
     @Override
-    public void simpleInitApp() {
-//        Box b = new Box(1, 1, 1);
-//        Geometry geom = new Geometry("Box", b);
+    protected void initialize(Application app) {
+        localMainroot = new Node("Im the main node ");
+        localguiroot = new Node(" Im so gui");
 
-        setDisplayFps(false);
-        setDisplayStatView(false);
+        sa = (SimpleApplication) app;
+        InputManager inputManager = sa.getInputManager();
+        AssetManager ass = sa.getAssetManager();
+        AppStateManager stateManager = sa.getStateManager();
 
-        timer =  stateManager.getApplication().getTimer();
-
-        flyCam.setMoveSpeed(0);
-
-//        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-//        mat.setColor("Color", ColorRGBA.Blue);
-//        geom.setMaterial(mat); im sorry defult box... your time has come
-
-//        rootNode.attachChild(geom);
 
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.White.mult(1.3f));
-        rootNode.addLight(al);
+        localMainroot.addLight(al);
 
-        cam.setLocation(new Vector3f(2.1749218f,2.3135061f,-1.8647175f)); // found this by flying around
+        sa.getFlyByCamera().setMoveSpeed(0);
+        sa.getFlyByCamera().setZoomSpeed(0); // no more zoming jermaise...
+
+        sa.getCamera().setLocation(new Vector3f(2.1749218f,2.3135061f,-1.8647175f)); // found this by flying around
 
         // I lowkirkgenually have no clue what a quaterion is i just fricked around to find out
-        cam.setRotation(new Quaternion(0.03264319f, -0.5638806f, 0.022313379f, 0.82490915f));
+        sa.getCamera().setRotation(new Quaternion(0.03264319f, -0.5638806f, 0.022313379f, 0.82490915f));
+
 
         DirectionalLight sun = new DirectionalLight();
         sun.setColor(ColorRGBA.White);
         sun.setDirection(new Vector3f(-1,-1,-1).normalizeLocal());
-        rootNode.addLight(sun);
+        localMainroot.addLight(sun);
 
-        camera = new Cam(cam,rootNode);
+        camera = new Cam(sa.getCamera(),localMainroot);
         mickeyMouse = new MickeyMouse(inputManager);
-        theOffice = new TheOffice(rootNode,assetManager);
-        employers = new Employers(rootNode,assetManager,stateManager);
-        touchables = new Touchables(rootNode,assetManager);
+        theOffice = new TheOffice(localMainroot,ass);
+        employers = new Employers(localMainroot,ass,stateManager);
+        touchables = new Touchables(localMainroot,ass);
 
-        text = new Text(assetManager,guiNode);
-        sleepKeysUI = new SleepKeysUI(assetManager,guiNode,text);
-        honkShoo = new HonkShoo(assetManager,guiNode,settings);
+        text = new Text(ass,localguiroot);
+        sleepKeysUI = new SleepKeysUI(ass,localguiroot,text);
+        honkShoo = new HonkShoo(ass,localguiroot,sa.getContext().getSettings());
 
-        sleepTimer = new SleepTimer(assetManager,guiNode,text);
+        sleepTimer = new SleepTimer(ass,localguiroot,text);
 
         keyBoard = new KeyBoard(inputManager);
         keyBoard.init();
@@ -129,17 +113,12 @@ public class NepoBaby extends SimpleApplication {
 
         sleepList = new SleepList();
 
-        satifaction = new Satifaction(assetManager,guiNode,text);
+        satifaction = new Satifaction(ass,localguiroot,text);
 
-        voiceSyth.SetVoice("kevin");
     }
 
-    public void simpleUpdate(float tpf) {
-
-        if(!yapping){
-//            voiceSyth.SayText("hey gooner king, practice your 'stroke' wont ya?");
-            yapping = true;
-        }
+    @Override
+    public void update(float tpf) {
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyboarE.lastKeyKris.contains(18);
         honkShoo.closeEyes = camera.sleeping || keyboarE.lastKeyKris.contains(18);
@@ -155,9 +134,10 @@ public class NepoBaby extends SimpleApplication {
 
         sleepList.debug();
 
-        flyCam.setRotationSpeed(camera.headRot);
+        sa.getFlyByCamera().setRotationSpeed(camera.headRot);
 
         employers.Update(tpf,camera.sleeping);
+        theOffice.update(employers.YourComputerIsDucked);
 
         sleepKeysUI.PrintOut(camera.sleeping);
         sleepTimer.PrintOut(camera.sleeping,sleepList.counter,tpf);
@@ -168,6 +148,7 @@ public class NepoBaby extends SimpleApplication {
             sleepList.Countup(keyBoard.lastKeyChara);
         }else{
             sleepList.ClearList();
+            camera.NeakHurts(sa.getFlyByCamera());
 //            sleepList.InitalE(keyboarE.lastKeyChara);
         }
 
@@ -175,4 +156,20 @@ public class NepoBaby extends SimpleApplication {
         System.out.println(camera.sleeping);
     }
 
+    @Override
+    protected void cleanup(Application app) {
+
+    }
+
+    @Override
+    protected void onEnable() {
+        sa.getRootNode().attachChild(localMainroot);
+        sa.getGuiNode().attachChild(localguiroot);
+    }
+
+    @Override
+    protected void onDisable() {
+        localMainroot.removeFromParent();
+        localguiroot.removeFromParent();
+    }
 }

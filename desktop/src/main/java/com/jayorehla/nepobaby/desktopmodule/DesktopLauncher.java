@@ -1,6 +1,7 @@
 package com.jayorehla.nepobaby.desktopmodule;
 
-import com.jayorehla.nepobaby.game.NepoBaby;
+import com.jayorehla.nepobaby.game.Main;
+import com.jayorehla.nepobaby.game.Scenes.Appies.NepoBaby;
 import com.jme3.system.AppSettings;
 
 /**
@@ -9,11 +10,11 @@ import com.jme3.system.AppSettings;
  */
 public class DesktopLauncher {
     public static void main(String[] args) {
-        final NepoBaby game = new NepoBaby();
+        final Main game = new Main();
 
         final AppSettings appSettings = new AppSettings(true);
 
-        appSettings.setFullscreen(true); // thes an isuse where this chages the aspect ratio of the computer. a big no no
+        appSettings.setFullscreen(false); // thes an isuse where this chages the aspect ratio of the computer. a big no no
         appSettings.setGraphicsDebug(false);
         appSettings.setHeight(1080);
         appSettings.setWidth(1080); //square

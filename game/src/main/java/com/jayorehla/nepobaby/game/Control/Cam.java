@@ -1,12 +1,13 @@
 package com.jayorehla.nepobaby.game.Control;
 
-import com.jayorehla.nepobaby.game.utls.PIDFController;
+import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.FlyByCamera;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 
 public class Cam {
@@ -40,6 +41,8 @@ public class Cam {
 
     String lookedAtThing;
 
+    private final Vector3f baselineForward = new Vector3f(0, 0, -1);
+
     public enum ThingsToLookAt{
         computer,
         cabeniet,
@@ -57,6 +60,31 @@ public class Cam {
         this.root = root;
         headRollPIDF = new PIDFController(0.1,0,0);
         headtranPIDF = new PIDFController(0.1,0,0);
+    }
+
+
+    public void NeakHurts(FlyByCamera flycam){
+        // neak stuff
+        float[] angles = new float[3];
+        cam.getRotation().toAngles(angles); // I just learnt this exist. bye bye qaudarions. i will never undertand yo
+
+        float pitch = angles[0];
+        float yaw   = angles[1];
+        float roll  = angles[2];
+
+        float maxPitch = (float) Math.toRadians(90);
+        float minPitch = (float) -Math.toRadians(90);
+        pitch = Math.clamp(pitch, minPitch, maxPitch);
+
+
+
+        yaw = FastMath.clamp(yaw, (float) Math.toRadians(-150),(float) Math.toRadians(0));
+
+        roll = 0f;
+
+        Quaternion clampedRotation = new Quaternion();
+        clampedRotation.fromAngles(pitch, yaw, roll);
+        cam.setRotation(clampedRotation);
     }
 
     public void update(float tph, boolean donesleep){

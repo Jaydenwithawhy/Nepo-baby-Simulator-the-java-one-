@@ -1,7 +1,7 @@
 package com.jayorehla.nepobaby.game.Models;
 
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
-import com.jayorehla.nepobaby.game.utls.PIDFController;
+import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -12,11 +12,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
 import com.jme3.audio.AudioNode;
-import com.jme3.audio.AudioData.DataType;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -34,6 +32,11 @@ public class Employers {
     AudioNode audioNode;
 
     List<String> voiceOptions;
+
+    List<String> varOptions;
+
+    public boolean taskDone;
+    public boolean YourComputerIsDucked = false;
 
     PIDFController xPidf;
     PIDFController zPidf;
@@ -151,6 +154,13 @@ public class Employers {
         stateManager.attach(Jvoice);
         stateManager.attach(Wvoice);
 
+        varOptions = new ArrayList<>();
+        varOptions.add("Security");
+        varOptions.add("Sales");
+        varOptions.add("Marketing");
+        varOptions.add("Manufacturing");
+        varOptions.add("Competitor spies");
+
 
         // overtime, i may reconsider the voices they are goofy but loveable (for know)
 
@@ -175,48 +185,55 @@ public class Employers {
     public void Update(float tpf, boolean sleeping){
         timer += tpf;
         goonertimer += tpf;
-        if (timer >= 5 && currentEmployee == "No One"){
-            step = 0;
-            employeeTime =false;
-            int randEmployee = random.nextInt(0,100);
-           if (randEmployee <= 30){
-               currentEmployee = "No One";
-               timer = 0;
-           }else if(randEmployee > 30 && randEmployee < 40 ){
-               currentEmployee = employeeList.get(0);
-           }
-           else if(randEmployee > 40 && randEmployee < 50 ){
-               currentEmployee = employeeList.get(1);
-           }
-           else if(randEmployee > 50 && randEmployee < 60){
-               currentEmployee = employeeList.get(2);
-           }
-           else if(randEmployee > 60 && randEmployee < 70 ){
-               currentEmployee = employeeList.get(3);
-           }
-           else if(randEmployee > 80 && randEmployee < 90 ){
-               currentEmployee = employeeList.get(4);
-           }
-           else if(randEmployee > 90 && randEmployee < 100 ){
-               currentEmployee = employeeList.get(5);
-           }
-            timer = 0;
-        }
+        currentEmployee = employeeList.get(5);
+//        if (timer >= 5 && currentEmployee == "No One"){
+//            step = 0;
+//            employeeTime =false;
+//            int randEmployee = random.nextInt(0,100);
+//           if (randEmployee <= 30){
+//               currentEmployee = "No One";
+//               timer = 0;
+//           }else if(randEmployee > 30 && randEmployee < 40 ){
+//               currentEmployee = employeeList.get(0);
+//           }
+//           else if(randEmployee > 40 && randEmployee < 50 ){
+//               currentEmployee = employeeList.get(1);
+//           }
+//           else if(randEmployee > 50 && randEmployee < 60){
+//               currentEmployee = employeeList.get(2);
+//           }
+//           else if(randEmployee > 60 && randEmployee < 70 ){
+//               currentEmployee = employeeList.get(3);
+//           }
+//           else if(randEmployee > 80 && randEmployee < 90 ){
+//               currentEmployee = employeeList.get(4);
+//           }
+//           else if(randEmployee > 90 && randEmployee < 100 ){
+//               currentEmployee = employeeList.get(5);
+//           }
+//            timer = 0;
+//        }
 
         if(currentEmployee != "No One" ){
             //man I wish I could set the thing to be the list rather than copying over the names...
             switch (currentEmployee){
                 case "Lothario Casanova the E-mail guy":
+                    YourComputerIsDucked = false;
                     break; // TODO: Make it swap to the corect texures
                 case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
+                    YourComputerIsDucked = false;
                     break;
                 case "The Cats":
+                    YourComputerIsDucked = false;
                     break;
                 case "Amora the Secretary":
+                    YourComputerIsDucked = false;
                     break;
                 case "Janitorial Jimmy":
+                    YourComputerIsDucked = false;
                     break;
                 case "Archey 'Arch' Winicks the Computer Technician":
+                    YourComputerIsDucked = true;
                     break;
             }
 
@@ -352,6 +369,7 @@ public class Employers {
                 case 4:
                     setStroke = false;
                     dockSatifation = 0;
+                    YourComputerIsDucked = false;
                     targetx = -2.5f;
                     targetz = 3.5f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
