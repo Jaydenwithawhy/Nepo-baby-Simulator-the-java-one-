@@ -15,7 +15,7 @@ public class TheOffice {
     Spatial theOffice;
     AssetManager ass; // ehehehehehehehehehewhe
 
-    boolean lastcheck;
+    boolean lastcheck = false;
 
     Texture everythingIsFine;
     Texture yourComputerHasVirus;

@@ -1,5 +1,6 @@
 package com.jayorehla.nepobaby.game.Control;
 
+import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jme3.input.InputManager;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -25,6 +26,7 @@ public class MickeyMouse {
         public void onAction(String name, boolean keyPressed, float tpf) {
             if (name.equals("Left Click")) {
                 leftClick = keyPressed;
+                Mainer.mouseDown = keyPressed;
             }
         }
     };

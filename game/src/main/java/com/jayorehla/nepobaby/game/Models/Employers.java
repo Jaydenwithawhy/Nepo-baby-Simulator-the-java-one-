@@ -1,7 +1,9 @@
 package com.jayorehla.nepobaby.game.Models;
 
+import com.jayorehla.nepobaby.game.Mouskatools.Task;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
+import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -273,6 +275,7 @@ public class Employers {
                         spoke = false;
                         iHaveNoMouthButImustScream = false;
                         goodboypoints = true;
+                        Mainer.doneTask = false;
 
                         audioNode.stop();
 
@@ -286,6 +289,7 @@ public class Employers {
                     }
                     switch (currentEmployee){
                         case "Lothario Casanova the E-mail guy":
+                            Mainer.Task = Task.Email.toString();
                              if(!iHaveNoMouthButImustScream){
                                  Lvoice.SayText(voiceOptions.get(random.nextInt(0,2)));
                                  iHaveNoMouthButImustScream = true;
@@ -296,6 +300,7 @@ public class Employers {
                              }
                             break;
                         case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
+                            Mainer.Task = Task.ForkMoneyOver.toString();
                             if(!iHaveNoMouthButImustScream){
                                 Rvoice.SayText(voiceOptions.get(random.nextInt(3,5)));
                                 iHaveNoMouthButImustScream = true;
@@ -306,6 +311,7 @@ public class Employers {
                             }
                             break;
                         case "The Cats":
+                            Mainer.Task = Task.PetTheCat.toString();
                             if(!iHaveNoMouthButImustScream) {
                                 Cvoice.SayText(voiceOptions.get(random.nextInt(6, 7)));
                                 iHaveNoMouthButImustScream = true;
@@ -316,6 +322,7 @@ public class Employers {
                             }
                             break;
                         case "Amora the Secretary":
+                            Mainer.Task = Task.SpreadDemSheets.toString();
                             if(!iHaveNoMouthButImustScream) {
                                 Avoice.SayText(voiceOptions.get(random.nextInt(8, 9)));
                                 iHaveNoMouthButImustScream = true;
@@ -326,6 +333,7 @@ public class Employers {
                             }
                             break;
                         case "Janitorial Jimmy":
+                            Mainer.Task = Task.CleanUpMess.toString();
                             if(!iHaveNoMouthButImustScream) {
                                 Jvoice.SayText(voiceOptions.get(random.nextInt(10, 12)));
                                 iHaveNoMouthButImustScream = true;
@@ -337,6 +345,7 @@ public class Employers {
 
                             break;
                         case "Archey 'Arch' Winicks the Computer Technician":
+                            Mainer.Task = Task.RebootComputa.toString();
                             if(!iHaveNoMouthButImustScream) {
                                 Wvoice.SayText(voiceOptions.get(random.nextInt(13, 15)));
                                 iHaveNoMouthButImustScream = true;
@@ -353,7 +362,7 @@ public class Employers {
                     }else{
                         dockSatifation = 0;
                     }
-                    if(timer > stroketime && spoke){
+                    if(timer > stroketime && spoke && Mainer.doneTask){
                         System.out.println(spoke);
                         step = 3;
                     }

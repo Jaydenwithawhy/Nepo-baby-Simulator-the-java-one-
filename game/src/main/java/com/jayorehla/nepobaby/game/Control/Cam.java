@@ -120,9 +120,11 @@ public class Cam {
                 switch (lookedAtThing){ // this way we can make sure we are only logging things we care about
                     case "Box":
                         return ThingsToLookAt.AdrienneChristianHernandez;
+                    case "Cabinet":
+                        return ThingsToLookAt.cabeniet;
 
                 }
-            }else return ThingsToLookAt.nothing;;
+            }else return ThingsToLookAt.nothing;
         }
         return ThingsToLookAt.nothing;
     }

@@ -4,6 +4,8 @@ import com.jayorehla.nepobaby.game.Control.*;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
+import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
+import com.jayorehla.nepobaby.game.Mouskatools.Task;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Ui.*;
 import com.jme3.app.Application;
@@ -119,6 +121,10 @@ public class MainOffice extends BaseAppState {
 
     @Override
     public void update(float tpf) {
+        if(!sa.getFlyByCamera().isEnabled()) {
+            sa.getInputManager().setCursorVisible(false);
+            sa.getFlyByCamera().setEnabled(true);
+        }
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyboarE.lastKeyKris.contains(18);
         honkShoo.closeEyes = camera.sleeping || keyboarE.lastKeyKris.contains(18);
@@ -150,6 +156,32 @@ public class MainOffice extends BaseAppState {
             sleepList.ClearList();
             camera.NeakHurts(sa.getFlyByCamera());
 //            sleepList.InitalE(keyboarE.lastKeyChara);
+        }
+
+        if(Mainer.Task == Task.Email.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
+        }else if(Mainer.Task == Task.ForkMoneyOver.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
+        }else if(Mainer.Task == Task.PetTheCat.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
+        }else if(Mainer.Task == Task.SpreadDemSheets.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
+        }else if(Mainer.Task == Task.CleanUpMess.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
+        }else if(Mainer.Task == Task.RebootComputa.toString()){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+                Mainer.TaskTime = true;
+            }
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
