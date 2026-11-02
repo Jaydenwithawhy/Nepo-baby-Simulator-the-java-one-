@@ -12,6 +12,6 @@ Now you gotta manage slacking off and doing the bare minimum that the employees 
 
 here the minimal gameplay so far
 
-​press E to fall a sleep. this increases your sleep counter. On your screen will be keys you need to type.  Type the  in the right order  to wake up. once you start typing you will become half awake so the sleep counter will pause. If you mess up a Key a new one will generate. You need to wake up before you employee reaches your desk which you will know if someone is coming if you hear footsteps. if they catch you you will lose Satisfaction and they will rat you out to your dad. Staying awake during an encounter gives you some Satisfaction​
+press E to fall a sleep. this increases your sleep counter. On your screen will be keys you need to type.  Type the  in the right order  to wake up. once you start typing you will become half awake so the sleep counter will pause. If you mess up a Key a new one will generate. You need to wake up before you employee reaches your desk which you will know if someone is coming if you hear footsteps. if they catch you you will lose Satisfaction and they will rat you out to your dad. Staying awake during an encounter gives you some Satisfaction. When an employee comes into your room, turn to the cabinet to your right and Right Click on it to start the mini game where you collect money for satifaction​
 
 
