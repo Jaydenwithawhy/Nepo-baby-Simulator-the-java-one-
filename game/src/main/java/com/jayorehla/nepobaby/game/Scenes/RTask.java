@@ -23,13 +23,16 @@ public class RTask extends BaseAppState {
 
     Node localguiroot;
 
+    Node localMainroot;
+
     @Override
     protected void initialize(Application app) {
         localguiroot = new Node("Im the Rtask root");
+        localMainroot = new Node("Im the Rtask main root");
         sa  = (SimpleApplication) app;
         sa.getViewPort().setBackgroundColor(com.jme3.math.ColorRGBA.White);
         text = new Text(sa.getAssetManager(),localguiroot);
-        rTaskUI = new RTaskUI(localguiroot,sa.getAssetManager(),sa.getInputManager());
+        rTaskUI = new RTaskUI(localMainroot,localguiroot,sa.getAssetManager(),sa.getInputManager());
 
         taskText = new TaskText(sa.getAssetManager(), localguiroot, text);
 
@@ -41,7 +44,7 @@ public class RTask extends BaseAppState {
 
     @Override
     public void update(float tph){
-        taskText.RTaskText(Mainer.TaskTime,tph);
+        taskText.RTaskText(Mainer.TaskTime,tph, counter);
         if(Mainer.TaskTime){
             rTaskUI.update(tph);
         }
@@ -65,7 +68,7 @@ public class RTask extends BaseAppState {
 
     @Override
     protected void onDisable() {
-//        localMainroot.removeFromParent();
+        localMainroot.removeFromParent();
         localguiroot.removeFromParent();
     }
 }

@@ -4,6 +4,7 @@ import com.jayorehla.nepobaby.game.Control.*;
 import com.jayorehla.nepobaby.game.Models.Employers;
 import com.jayorehla.nepobaby.game.Models.TheOffice;
 import com.jayorehla.nepobaby.game.Models.Touchables;
+import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Ui.*;
 import com.jme3.app.SimpleApplication;
@@ -151,7 +152,7 @@ public class NepoBaby extends SimpleApplication {
 
         sleepKeysUI.PrintOut(camera.sleeping);
         sleepTimer.PrintOut(camera.sleeping,sleepList.counter,tpf);
-        satifaction.PrintOut(employers.dockSatifation,employers.goodboy,employers.goodboypoints);
+        satifaction.PrintOut((int)Mainer.SatifationOmpf,employers.goodboy,employers.goodboypoints);
 
         if(camera.sleeping) {
             sleepList.CreateList(1, tpf);

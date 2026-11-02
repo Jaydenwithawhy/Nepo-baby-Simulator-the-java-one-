@@ -1,5 +1,6 @@
 package com.jayorehla.nepobaby.game.Models;
 
+import com.jayorehla.nepobaby.game.Main;
 import com.jayorehla.nepobaby.game.Mouskatools.Task;
 import com.jayorehla.nepobaby.game.Mouskatools.VoiceSyth;
 import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
@@ -37,7 +38,9 @@ public class Employers {
 
     List<String> varOptions;
 
-    public boolean taskDone;
+    String voiceLine;
+    boolean chousenline = false;
+
     public boolean YourComputerIsDucked = false;
 
     PIDFController xPidf;
@@ -49,9 +52,6 @@ public class Employers {
     public int stroketime;
 
     private boolean setStroke;
-
-    public int dockSatifation = 0;
-
     public boolean goodboy;
     public boolean goodboypoints;
 
@@ -112,6 +112,7 @@ public class Employers {
         employeeList.add("Janitorial Jimmy");
         employeeList.add("Archey 'Arch' Winicks the Computer Technician");
 
+        //employee voicelines
         voiceOptions = new ArrayList<>();
 
         // Lothario Casanova lines
@@ -122,7 +123,7 @@ public class Employers {
         // Roberto Robyn Roby Robinder Robbie Robertson III lines
         voiceOptions.add("Guess whoze heair fore zour cool zings?! Roberto Robyn Roby Robinder Robbie Robertson Za Third! Zats who!");
         voiceOptions.add("I'm am Roberto Robyn Roby Robinder Robbie Robertson Za third and I am heair to rob you!");
-        voiceOptions.add("Your Zings are now propairty of Mother Quebec! Un sale anglophone comme toi en redoute le nom, Roberto Robyn Roby Robinder Robbie Robertson le Troisième!");
+        voiceOptions.add("Your Zings are now propairty of Mothair Quebec! Un sale anglophone comme toi en redoute le nom, Roberto Robyn Roby Robinder Robbie Robertson le Troisième!");
 
         // The cats "lines"
         voiceOptions.add("Meow mew meowmeow!");
@@ -130,7 +131,7 @@ public class Employers {
 
         // Amora the Secretary
         voiceOptions.add("Sir, {VAR} needs you to sign these documents");
-        voiceOptions.add("Sir, In order to close your fathers money  laundering scheme you need to sgin here");
+        voiceOptions.add("Sir, In order to close your fathers money laundering scheme, {VAR} need to sgin here");
 
         // Janitorial Jimmy
         voiceOptions.add("Oi laddie! Whata frugg'n mess we got 'ere! I ant clean'n after yah laddie! Hop to it!!");
@@ -177,16 +178,12 @@ public class Employers {
 
     }
 
-    private int exclude(int currentNumber,List<Integer> numbers){
-        for (int i = 0; i < numbers.size(); i++) {
-            if (currentNumber == numbers.get(i)) return numbers.get(0);
-        }
-        return currentNumber;
-    }
-
     public void Update(float tpf, boolean sleeping){
         timer += tpf;
         goonertimer += tpf;
+        YourComputerIsDucked = currentEmployee.equals("Archey 'Arch' Winicks the Computer Technician")
+                && step < 4;
+        System.out.println("your puta"+YourComputerIsDucked);
         if (timer >= 5 && currentEmployee == "No One"){
             step = 0;
             employeeTime =false;
@@ -219,22 +216,16 @@ public class Employers {
             //man I wish I could set the thing to be the list rather than copying over the names...
             switch (currentEmployee){
                 case "Lothario Casanova the E-mail guy":
-                    YourComputerIsDucked = false;
                     break; // TODO: Make it swap to the corect texures
                 case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
-                    YourComputerIsDucked = false;
                     break;
                 case "The Cats":
-                    YourComputerIsDucked = false;
                     break;
                 case "Amora the Secretary":
-                    YourComputerIsDucked = false;
                     break;
                 case "Janitorial Jimmy":
-                    YourComputerIsDucked = false;
                     break;
                 case "Archey 'Arch' Winicks the Computer Technician":
-                    YourComputerIsDucked = true;
                     break;
             }
 
@@ -276,6 +267,7 @@ public class Employers {
                         iHaveNoMouthButImustScream = false;
                         goodboypoints = true;
                         Mainer.doneTask = false;
+                        chousenline = false;
 
                         audioNode.stop();
 
@@ -291,7 +283,8 @@ public class Employers {
                         case "Lothario Casanova the E-mail guy":
                             Mainer.Task = Task.Email.toString();
                              if(!iHaveNoMouthButImustScream){
-                                 Lvoice.SayText(voiceOptions.get(random.nextInt(0,2)));
+                                 voiceLine = voiceOptions.get(random.nextInt(0,2));
+                                 Lvoice.SayText(voiceLine.replace("{VAR}", voiceOptions.get(random.nextInt(0, voiceOptions.size() -1))));
                                  iHaveNoMouthButImustScream = true;
                              }
                              if (!Lvoice.ispeaking){
@@ -324,7 +317,8 @@ public class Employers {
                         case "Amora the Secretary":
                             Mainer.Task = Task.SpreadDemSheets.toString();
                             if(!iHaveNoMouthButImustScream) {
-                                Avoice.SayText(voiceOptions.get(random.nextInt(8, 9)));
+                                voiceLine = voiceOptions.get(random.nextInt(8,9));
+                                Avoice.SayText(voiceLine.replace("{VAR}", voiceOptions.get(random.nextInt(0, voiceOptions.size() -1))));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Avoice.ispeaking){
@@ -357,10 +351,10 @@ public class Employers {
                             break;
                     }
                     if(sleeping){
-                        dockSatifation = -1;
+                        Mainer.SatifationOmpf = -1;
                         goodboy = false;
                     }else{
-                        dockSatifation = 0;
+                        Mainer.SatifationOmpf = 0;
                     }
                     if(timer > stroketime && spoke && Mainer.doneTask){
                         System.out.println(spoke);
@@ -369,15 +363,16 @@ public class Employers {
                     break;
                 case 3:
                     if(goodboy && goodboypoints){
-                        dockSatifation = 20;
+                        Mainer.SatifationOmpf = 20;
                         goodboypoints = false;
                     }
                     step = 4;
                     break;
                 case 4:
                     setStroke = false;
-                    dockSatifation = 0;
-                    YourComputerIsDucked = false;
+                    Mainer.SatifationOmpf = 0;
+
+                    if(!Mainer.pointsGotenFromTask) Mainer.taskSatifactionOmpf = 0;
                     targetx = -2.5f;
                     targetz = 3.5f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;

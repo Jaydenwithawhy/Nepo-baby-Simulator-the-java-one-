@@ -3,6 +3,7 @@ package com.jayorehla.nepobaby.game.Ui;
 import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -13,6 +14,8 @@ import java.util.Random;
 public class RTaskUI {
 
     Node guiNode;
+
+    Node root;
 
     AssetManager ass;
 
@@ -39,10 +42,11 @@ public class RTaskUI {
     Money money19;
     Money money20;
     // money money money
-    public RTaskUI(Node guiNode, AssetManager ass, InputManager inputManager){
+    public RTaskUI(Node root, Node guiNode, AssetManager ass, InputManager inputManager){
         this.guiNode = guiNode;
         this.inputManager = inputManager;
         this.ass = ass;
+        this.root = root;
         money1 = new Money(guiNode);
         money2 = new Money(guiNode);
         money3 = new Money(guiNode);
@@ -94,6 +98,7 @@ public class RTaskUI {
         PIDFController xpidf;
         PIDFController ypidf;
         Random random;
+        AudioNode moneydies;
         int smartLevel;
         int id;
         Node guiNode;
@@ -106,6 +111,7 @@ public class RTaskUI {
         double ypower;
 
         double timer;
+        boolean givenSaifaction = false;
 
         private Money(Node guiNode){
             this.guiNode = guiNode;
@@ -113,11 +119,18 @@ public class RTaskUI {
             smartLevel = random.nextInt(1,4);
             id = random.nextInt();
 
-            moneyDotPNG = new Picture("MoneyOWO" + id);
+            moneydies = new AudioNode(ass,"Sounds/lego-yoda-death-sound-effect.wav");
+            moneydies.setVolume(2);
+            moneydies.setPositional(false);
+            root.attachChild(moneydies);
+            moneydies.setLooping(false);
+
+            moneyDotPNG = new Picture("MoneyOWO" + id); // gives each money a unique name. I forgot why I needed it so it's not used
             moneyDotPNG.setImage(ass, "Textures/mony.png", true);
             moneyDotPNG.setWidth(200);
             moneyDotPNG.setHeight(200);
             moneyDotPNG.setPosition(0,0);
+            moneyDotPNG.setCullHint(Spatial.CullHint.Inherit);
 
             guiNode.attachChild(moneyDotPNG);
 
@@ -203,7 +216,13 @@ public class RTaskUI {
             }
 
             if ((inputManager.getCursorPosition().x < (moneyDotPNG.getLocalTransform().getTranslation().x + moneyDotPNG.getWidth()) && inputManager.getCursorPosition().x > (moneyDotPNG.getLocalTransform().getTranslation().x - moneyDotPNG.getWidth())) && (inputManager.getCursorPosition().y < (moneyDotPNG.getLocalTransform().getTranslation().y + moneyDotPNG.getHeight()) && inputManager.getCursorPosition().y > (moneyDotPNG.getLocalTransform().getTranslation().y - moneyDotPNG.getHeight()))){
-                if(Mainer.mouseDown){
+                if(Mainer.mouseDown && moneyDotPNG.getCullHint() != Spatial.CullHint.Always){ // the  if statement was too long so i cut it in half
+                    if(!givenSaifaction){
+                        Mainer.taskSatifactionOmpf += 5;
+                        givenSaifaction = true;
+                    }
+                    moneydies.play();
+                    Mainer.pointsGotenFromTask = true;
                     moneyDotPNG.setCullHint(Spatial.CullHint.Always);
                 }
             }

@@ -26,6 +26,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
+        Mainer.workDayClock += tpf;
         if (Mainer.TaskTime) {
             if (baseAppStateNamedDesire == null) {
                 BaseAppState task = createTask(Mainer.Task);

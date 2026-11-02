@@ -6,6 +6,7 @@ import com.atr.jme.font.asset.TrueTypeKeyBMP;
 import com.atr.jme.font.asset.TrueTypeLoader;
 import com.atr.jme.font.shape.TrueTypeNode;
 import com.atr.jme.font.util.Style;
+import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.KeyInput;
 import com.jme3.math.ColorRGBA;
@@ -54,6 +55,12 @@ public class Satifaction {
         String targetText = "Employee Satifaction -> " + satify;
 
             satify += docker;
+
+
+            if(Mainer.pointsGotenFromTask){
+                satify += Mainer.taskSatifactionOmpf;
+                Mainer.pointsGotenFromTask = false;
+            }
 
 
 

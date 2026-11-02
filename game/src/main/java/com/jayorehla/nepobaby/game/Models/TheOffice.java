@@ -45,10 +45,10 @@ public class TheOffice {
 
 
                             if (oldMat.getParam("BaseColorMap") != null) {
-                                newMat.setTexture("DiffuseMap", (Texture) oldMat.getParam("BaseColorMap").getValue());
+                                newMat.setTexture("DiffuseMap", everythingIsFine);
                             } else if (oldMat.getParam("BaseColor") != null) {
                                 newMat.setColor("Diffuse", (ColorRGBA) oldMat.getParam("BaseColor").getValue());
-                                newMat.setBoolean("UseMaterialColors", true);
+                                newMat.setBoolean("UseMaterialColors", false);
                             }
 
                             geo.setMaterial(newMat);
@@ -72,6 +72,7 @@ public class TheOffice {
                             if(spaty instanceof Geometry){
                                 Material mat = ((Geometry) spaty).getMaterial();
                                 if (mat.getParam("DiffuseMap") != null) {
+                                    mat.setBoolean("UseMaterialColors", false);
                                     mat.setTexture("DiffuseMap", texToApply);
                                 }
                             }

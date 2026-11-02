@@ -25,7 +25,9 @@ public class SleepTimer {
 
     String lastRenderedText;
 
-    double sleeptimer = 0;
+    public double sleeptimer = 0;
+
+    double amountSlept;
 
     Text text;
 
@@ -48,9 +50,8 @@ public class SleepTimer {
     public void PrintOut(boolean sleeping, int counter, float tph){
         if(sleeping && counter == 0) {
             sleeptimer += tph;
-//            sleeptimer = Math.round(sleeptimer);
         }
-            String targetText = "Time Slept -> " + (int) sleeptimer;
+        String targetText = "Minutes Slept -> " + sleeptimer;
 
 
             if (!targetText.equals(lastRenderedText)) {

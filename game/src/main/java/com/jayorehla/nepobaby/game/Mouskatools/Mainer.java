@@ -12,4 +12,9 @@ public class Mainer {
     public static boolean mouseDown = false;
 
     public static double SatifationOmpf = 0;
+
+    public static boolean pointsGotenFromTask = false;
+    public static double taskSatifactionOmpf = 0;
+
+    public static double workDayClock = 540; //  starts at nine o clock
 }

@@ -63,6 +63,8 @@ public class MainOffice extends BaseAppState {
 
     SimpleApplication sa;
 
+    Workdayclock workdayclock;
+
     @Override
     protected void initialize(Application app) {
         localMainroot = new Node("Im the main node ");
@@ -116,6 +118,7 @@ public class MainOffice extends BaseAppState {
         sleepList = new SleepList();
 
         satifaction = new Satifaction(ass,localguiroot,text);
+        workdayclock = new Workdayclock(ass,text,localguiroot);
 
     }
 
@@ -138,16 +141,18 @@ public class MainOffice extends BaseAppState {
 
         sleepList.theRoaringSet = keyBoard.lastKeyKris;
 
-        sleepList.debug();
+//        sleepList.debug();
 
         sa.getFlyByCamera().setRotationSpeed(camera.headRot);
 
         employers.Update(tpf,camera.sleeping);
         theOffice.update(employers.YourComputerIsDucked);
 
+        workdayclock.PrintTime(sleepTimer.sleeptimer > 144);
+
         sleepKeysUI.PrintOut(camera.sleeping);
         sleepTimer.PrintOut(camera.sleeping,sleepList.counter,tpf);
-        satifaction.PrintOut(employers.dockSatifation,employers.goodboy,employers.goodboypoints);
+        satifaction.PrintOut((int)Mainer.SatifationOmpf,employers.goodboy,employers.goodboypoints);
 
         if(camera.sleeping) {
             sleepList.CreateList(1, tpf);
@@ -185,7 +190,7 @@ public class MainOffice extends BaseAppState {
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-        System.out.println(camera.sleeping);
+//        System.out.println(camera.sleeping);
     }
 
     @Override

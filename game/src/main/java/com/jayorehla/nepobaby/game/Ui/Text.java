@@ -23,14 +23,20 @@ public class Text {
 
     Node guinode;
 
+    TrueTypeKey newTimeBaqBigger;
+    public TrueTypeFont ttfFontBigga;
+
     public Text(AssetManager ass, Node guiroot ){
         this.ass = ass;
         this.guinode = guiroot;
 
         ass.registerLoader(TrueTypeLoader.class,"ttf");
         newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 25);
+        newTimeBaqBigger = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 48);
         ttfFont = (TrueTypeFont) ass.loadAsset(newTimeBaq);
+        ttfFontBigga = (TrueTypeFont) ass.loadAsset(newTimeBaqBigger);
         ttfFont.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,;:'/[]->", 0, ColorRGBA.White);
+        ttfFontBigga.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,;:'/[]->", 0, ColorRGBA.White);
 
     }
 }
