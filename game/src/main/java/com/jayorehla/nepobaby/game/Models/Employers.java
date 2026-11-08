@@ -7,6 +7,7 @@ import com.jayorehla.nepobaby.game.Mouskatools.PIDFController;
 import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.TextureKey;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -15,6 +16,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.control.BillboardControl;
 import com.jme3.scene.shape.Quad;
 import com.jme3.audio.AudioNode;
+import com.jme3.texture.Image;
+import com.jme3.texture.Texture;
+import com.jme3.texture.Texture2D;
+import com.jme3.ui.Picture;
 
 
 import java.util.ArrayList;
@@ -31,6 +36,16 @@ public class Employers {
     public Geometry dash; // OH MY GOD GD REFERECNE
     Node root;
     Material mat;
+
+
+    Texture LTexture;
+    Texture RTexture;
+    Texture CTexture1;
+    Texture CTexture2;
+    Texture CTexture3;
+    Texture ATexture;
+    Texture JTexture;
+    Texture WTexture;
 
     AudioNode audioNode;
 
@@ -87,6 +102,10 @@ public class Employers {
         dash = new Geometry("employees",employee);
         dash.setMaterial(mat);
 
+        LTexture = ass.loadTexture(new TextureKey("Textures/the L is real 2108.png", true));
+        RTexture = ass.loadTexture(new TextureKey("Textures/Roberto Robyn Roby Robinder Robbie Robertson III the robber.png", true));
+        ATexture = ass.loadTexture(new TextureKey("Textures/Amora Tennisman.png",true));
+
         BillboardControl billboard = new BillboardControl();
         billboard.setAlignment(BillboardControl.Alignment.Screen);
         dash.addControl(billboard);
@@ -116,7 +135,7 @@ public class Employers {
         voiceOptions = new ArrayList<>();
 
         // Lothario Casanova lines
-        voiceOptions.add("My favorite Employer! So the chicks down at {VAR} were expecting a repsonce from me like an hour ago so know they are angry. On the bright side I shifted the blame to you so you better write to them quick! ");
+        voiceOptions.add("My favorite Employer! So the chicks down at {VAR} were expecting a response from me like an hour ago so now they are angry. On the bright side I shifted the blame to you so you better write to them quick! ");
         voiceOptions.add("Heya Mista Top dog! A fine dandelion like yourself out to send a message down to {VAR}, they would love to hear from you");
         voiceOptions.add(" Okay so the press knows about your dads money laundering scheme. Not to worry email them a nice email, say your sorry, send some roses and they'll blow it over! That's a Lothario guarantee!");
 
@@ -163,6 +182,9 @@ public class Employers {
         varOptions.add("Marketing");
         varOptions.add("Manufacturing");
         varOptions.add("Competitor spies");
+        varOptions.add("The C.R.A.");
+        varOptions.add("The Bradreian Quesly Avonshire Fan club");
+        varOptions.add("The Bradreian Quesly Avonshire Hate club");
 
 
         // overtime, i may reconsider the voices they are goofy but loveable (for know)
@@ -216,16 +238,31 @@ public class Employers {
             //man I wish I could set the thing to be the list rather than copying over the names...
             switch (currentEmployee){
                 case "Lothario Casanova the E-mail guy":
+                    mat.setColor("Color", ColorRGBA.White);
+                    // Must be White to be the defult colours or else it dies the imgaes to being the colour
+                    // the images right now are a little streached becase the aspect ratio is wrong
+                    // that will get fixed when all the art is done :)
+                    mat.setTexture("ColorMap", LTexture);
                     break; // TODO: Make it swap to the corect texures
                 case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
+                    mat.setColor("Color", ColorRGBA.White);
+                    mat.setTexture("ColorMap",RTexture);
                     break;
                 case "The Cats":
+                    mat.clearParam("ColorMap");
+                    mat.setColor("Color", ColorRGBA.Brown);
                     break;
                 case "Amora the Secretary":
+                    mat.setColor("Color", ColorRGBA.White);
+                    mat.setTexture("ColorMap", ATexture);
                     break;
                 case "Janitorial Jimmy":
+                    mat.clearParam("ColorMap");
+                    mat.setColor("Color", ColorRGBA.Yellow);
                     break;
                 case "Archey 'Arch' Winicks the Computer Technician":
+                    mat.clearParam("ColorMap");
+                    mat.setColor("Color", ColorRGBA.DarkGray);
                     break;
             }
 
@@ -235,7 +272,7 @@ public class Employers {
                     goodboy = true;
                     audioNode.play();
                     targetx = -2.5f;
-                    targetz = 3.5f;
+                    targetz = 4f;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
                     else xpower = xPidf.getOutput(dash.getWorldTransform().getTranslation().x, targetx);
 
@@ -276,15 +313,15 @@ public class Employers {
                     break;
                 case 2:
                     if(!setStroke){
-                        stroketime = random.nextInt(1,4);
+                        stroketime = random.nextInt(1,6);
                         setStroke = true;
                     }
                     switch (currentEmployee){
                         case "Lothario Casanova the E-mail guy":
                             Mainer.Task = Task.Email.toString();
                              if(!iHaveNoMouthButImustScream){
-                                 voiceLine = voiceOptions.get(random.nextInt(0,2));
-                                 Lvoice.SayText(voiceLine.replace("{VAR}", voiceOptions.get(random.nextInt(0, voiceOptions.size() -1))));
+                                 voiceLine = voiceOptions.get(random.nextInt(0,3));
+                                 Lvoice.SayText(voiceLine.replace("{VAR}", varOptions.get(random.nextInt(0, varOptions.size()))));
                                  iHaveNoMouthButImustScream = true;
                              }
                              if (!Lvoice.ispeaking){
@@ -295,7 +332,7 @@ public class Employers {
                         case "Roberto Robyn Roby Robinder Robbie Robertson III the robber":
                             Mainer.Task = Task.ForkMoneyOver.toString();
                             if(!iHaveNoMouthButImustScream){
-                                Rvoice.SayText(voiceOptions.get(random.nextInt(3,5)));
+                                Rvoice.SayText(voiceOptions.get(random.nextInt(3,6)));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Rvoice.ispeaking){
@@ -306,7 +343,7 @@ public class Employers {
                         case "The Cats":
                             Mainer.Task = Task.PetTheCat.toString();
                             if(!iHaveNoMouthButImustScream) {
-                                Cvoice.SayText(voiceOptions.get(random.nextInt(6, 7)));
+                                Cvoice.SayText(voiceOptions.get(random.nextInt(6, 8)));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Cvoice.ispeaking){
@@ -317,8 +354,8 @@ public class Employers {
                         case "Amora the Secretary":
                             Mainer.Task = Task.SpreadDemSheets.toString();
                             if(!iHaveNoMouthButImustScream) {
-                                voiceLine = voiceOptions.get(random.nextInt(8,9));
-                                Avoice.SayText(voiceLine.replace("{VAR}", voiceOptions.get(random.nextInt(0, voiceOptions.size() -1))));
+                                voiceLine = voiceOptions.get(random.nextInt(8,10));
+                                Avoice.SayText(voiceLine.replace("{VAR}", varOptions.get(random.nextInt(0, varOptions.size()))));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Avoice.ispeaking){
@@ -329,7 +366,7 @@ public class Employers {
                         case "Janitorial Jimmy":
                             Mainer.Task = Task.CleanUpMess.toString();
                             if(!iHaveNoMouthButImustScream) {
-                                Jvoice.SayText(voiceOptions.get(random.nextInt(10, 12)));
+                                Jvoice.SayText(voiceOptions.get(random.nextInt(10, 13)));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Jvoice.ispeaking){
@@ -341,7 +378,7 @@ public class Employers {
                         case "Archey 'Arch' Winicks the Computer Technician":
                             Mainer.Task = Task.RebootComputa.toString();
                             if(!iHaveNoMouthButImustScream) {
-                                Wvoice.SayText(voiceOptions.get(random.nextInt(13, 15)));
+                                Wvoice.SayText(voiceOptions.get(random.nextInt(13, 16)));
                                 iHaveNoMouthButImustScream = true;
                             }
                             if (!Wvoice.ispeaking){
@@ -374,7 +411,7 @@ public class Employers {
 
                     if(!Mainer.pointsGotenFromTask) Mainer.taskSatifactionOmpf = 0;
                     targetx = -2.5f;
-                    targetz = 3.5f;
+                    targetz = 4;
                     if(Math.abs(dash.getWorldTransform().getTranslation().x - targetx) <= 1) xpower = 0;
                     else xpower = xPidf.getOutput(dash.getWorldTransform().getTranslation().x, targetx);
 

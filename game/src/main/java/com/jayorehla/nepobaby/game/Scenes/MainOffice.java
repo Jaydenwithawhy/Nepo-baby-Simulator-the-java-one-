@@ -130,8 +130,8 @@ public class MainOffice extends BaseAppState {
         }
         camera.MouseClicked = mickeyMouse.leftClick;
         camera.Eclicked = keyboarE.lastKeyKris.contains(18);
-        honkShoo.closeEyes = camera.sleeping || keyboarE.lastKeyKris.contains(18);
-        honkShoo.OpenEyes  = sleepList.SleepDone(camera.sleeping) || !camera.sleeping;
+        honkShoo.closeEyes = camera.sleeping; //|| keyboarE.lastKeyKris.contains(18);
+        honkShoo.OpenEyes  = !camera.sleeping;
         camera.update(tpf,sleepList.SleepDone(camera.sleeping));
         honkShoo.Update(tpf);
 
@@ -148,7 +148,7 @@ public class MainOffice extends BaseAppState {
         employers.Update(tpf,camera.sleeping);
         theOffice.update(employers.YourComputerIsDucked);
 
-        workdayclock.PrintTime(sleepTimer.sleeptimer > 144);
+        workdayclock.PrintTime(Mainer.workDayClock > 144);
 
         sleepKeysUI.PrintOut(camera.sleeping);
         sleepTimer.PrintOut(camera.sleeping,sleepList.counter,tpf);
@@ -190,7 +190,7 @@ public class MainOffice extends BaseAppState {
         }
 
 //        System.out.println(keyBoard.lastKeyKris);
-//        System.out.println(camera.sleeping);
+        System.out.println(honkShoo.closeEyes);
     }
 
     @Override

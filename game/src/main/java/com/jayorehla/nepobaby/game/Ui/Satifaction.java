@@ -6,12 +6,14 @@ import com.atr.jme.font.asset.TrueTypeKeyBMP;
 import com.atr.jme.font.asset.TrueTypeLoader;
 import com.atr.jme.font.shape.TrueTypeNode;
 import com.atr.jme.font.util.Style;
+import com.jayorehla.nepobaby.game.Main;
 import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.KeyInput;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.ui.Picture;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +33,9 @@ public class Satifaction {
 
         String lastRenderedText;
 
-        double satify = 0;
+        Picture theSign;
+
+
 
         Text text;
 
@@ -44,21 +48,29 @@ public class Satifaction {
 //            newTimeBaq = new TrueTypeKeyBMP("Interface/Times_New_Baq.ttf", Style.Plain, 25);
 //            ttfFont = (TrueTypeFont) ass.loadAsset(newTimeBaq);
 
-            node = text.ttfFont.getText("", 0, ColorRGBA.Red);
-            node.setLocalTranslation(500f, 900f, 1f);
+            node = text.ttfFontBigga.getText("", 0, ColorRGBA.Red);
+            node.setLocalTranslation(500f, 950f, 1f);
             node.setQueueBucket(com.jme3.renderer.queue.RenderQueue.Bucket.Gui);
             node.setCullHint(Spatial.CullHint.Inherit);
             guiroot.attachChild(node);
+
+            theSign = new Picture("The satifation sign");
+            theSign.setImage(ass, "Textures/ui more nepo.png", true);
+            theSign.setWidth(444/2);
+            theSign.setHeight(587/2);
+            theSign.setPosition(400,800);
+            theSign.setCullHint(Spatial.CullHint.Inherit);
+            guiroot.attachChild(theSign);
         }
 
     public void PrintOut(int docker, boolean goodboy, boolean goobooypoints){
-        String targetText = "Employee Satifaction -> " + satify;
+        String targetText = String.valueOf((int) Mainer.Satifaction);
 
-            satify += docker;
+            Mainer.Satifaction += docker;
 
 
             if(Mainer.pointsGotenFromTask){
-                satify += Mainer.taskSatifactionOmpf;
+               Mainer.Satifaction += Mainer.taskSatifactionOmpf;
                 Mainer.pointsGotenFromTask = false;
             }
 
@@ -68,9 +80,12 @@ public class Satifaction {
             if (node != null) {
                 guinode.detachChild(node);
             }
-            node = text.ttfFont.getText(targetText, 0, ColorRGBA.Red);
-            node.setLocalTranslation(500f, 900f, 1f);
+            node = text.ttfFontBigga.getText(targetText, 0, ColorRGBA.Red);
+            node.setLocalTranslation(500f, 950f, 1f);
             node.setQueueBucket(com.jme3.renderer.queue.RenderQueue.Bucket.Gui);
+            node.setLocalScale((float) ((float)(-0.0888889*(targetText.length()))+1.08889));
+
+            // oh linear regression, my linear regression
 
 
             node.setCullHint(Spatial.CullHint.Inherit);

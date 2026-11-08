@@ -164,6 +164,7 @@ public class NepoBaby extends SimpleApplication {
 
 //        System.out.println(keyBoard.lastKeyKris);
         System.out.println(camera.sleeping);
+
     }
 
 }

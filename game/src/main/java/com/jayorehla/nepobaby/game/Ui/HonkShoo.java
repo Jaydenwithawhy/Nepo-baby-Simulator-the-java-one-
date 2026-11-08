@@ -1,6 +1,7 @@
 package com.jayorehla.nepobaby.game.Ui;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
@@ -20,7 +21,11 @@ public class HonkShoo {
 
     private boolean opening = false;
 
+    private boolean closing = false;
+
     double timer;
+
+    AudioNode honkshoo;
 
     public HonkShoo(AssetManager ass, Node guiNode, AppSettings settings){
         this.ass = ass;
@@ -37,9 +42,10 @@ public class HonkShoo {
 
     public void Update(float tph){
          timer += tph;
+         if(closeEyes) closing = true;
         if (OpenEyes) opening = true;
 
-        if(closeEyes){
+        if(closing){
             SleepState();
         }
 
@@ -49,6 +55,8 @@ public class HonkShoo {
     }
 
     private void SleepState(){
+
+        System.out.println("awakestate " + sleepState);
         awakeState = 0;
          switch (sleepState){
              case 0:
@@ -58,7 +66,7 @@ public class HonkShoo {
              case 1:
                  eyelids.setCullHint(Spatial.CullHint.Inherit);
                  eyelids.setImage(ass, "Textures/4.png", true);
-                 if(timer > ((double) 2 /12)) sleepState = 2;
+                 if(timer > ((double) 1 /12)) sleepState = 2;
                  break;
              case 2:
                  timer = 0;
@@ -66,7 +74,7 @@ public class HonkShoo {
                  break;
              case 3:
                  eyelids.setImage(ass,"Textures/3.png", true);
-                 if(timer > ((double) 2 /12)) sleepState = 4;
+                 if(timer > ((double) 1 /12)) sleepState = 4;
                  break;
              case 4:
                  timer = 0;
@@ -74,7 +82,7 @@ public class HonkShoo {
                  break;
              case 5:
                  eyelids.setImage(ass,"Textures/2.png", true);
-                 if(timer > ((double) 2 /12)) sleepState = 6;
+                 if(timer > ((double) 1 /12)) sleepState = 6;
                  break;
              case 6:
                  timer = 0;
@@ -82,6 +90,7 @@ public class HonkShoo {
                  break;
              case 7:
                  eyelids.setImage(ass,"Textures/1.png", true);
+                 closing = false;
                  break;
          }
     }
@@ -97,7 +106,7 @@ public class HonkShoo {
                 break;
             case 1:
                 eyelids.setImage(ass, "Textures/1.png", true);
-                if(timer > ((double) 2 /12)) awakeState = 2;
+                if(timer > ((double) 1 /12)) awakeState = 2;
                 break;
             case 2:
                 timer = 0;
@@ -105,7 +114,7 @@ public class HonkShoo {
                 break;
             case 3:
                 eyelids.setImage(ass,"Textures/2.png", true);
-                if(timer > ((double) 2 /12)) awakeState = 4;
+                if(timer > ((double) 1 /12)) awakeState = 4;
                 break;
             case 4:
                 timer = 0;
@@ -113,7 +122,7 @@ public class HonkShoo {
                 break;
             case 5:
                 eyelids.setImage(ass,"Textures/3.png", true);
-                if(timer > ((double) 2 /12)) awakeState = 6;
+                if(timer > ((double) 1 /12)) awakeState = 6;
                 break;
             case 6:
                 timer = 0;
@@ -121,7 +130,7 @@ public class HonkShoo {
                 break;
             case 7:
                 eyelids.setImage(ass,"Textures/4.png", true);
-                if(timer > ((double) 2 /12)) awakeState = 8;
+                if(timer > ((double) 1 /12)) awakeState = 8;
                 break;
             case 8:
                 timer = 0;

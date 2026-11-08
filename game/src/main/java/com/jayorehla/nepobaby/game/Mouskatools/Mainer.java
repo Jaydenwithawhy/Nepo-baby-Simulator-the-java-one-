@@ -17,4 +17,8 @@ public class Mainer {
     public static double taskSatifactionOmpf = 0;
 
     public static double workDayClock = 540; //  starts at nine o clock
+
+    public static double SleepTimer = 0;
+
+    public static double Satifaction = 0;
 }

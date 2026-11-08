@@ -1,6 +1,7 @@
 package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
+import com.jayorehla.nepobaby.game.Scenes.EndContion;
 import com.jayorehla.nepobaby.game.Scenes.MainOffice;
 import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
 import com.jayorehla.nepobaby.game.Scenes.RTask;
@@ -27,18 +28,32 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         Mainer.workDayClock += tpf;
-        if (Mainer.TaskTime) {
-            if (baseAppStateNamedDesire == null) {
-                BaseAppState task = createTask(Mainer.Task);
-                if (task == null) return;
-                mainOffice.setEnabled(false);
-                baseAppStateNamedDesire = task;
-                stateManager.attach(baseAppStateNamedDesire);
+        if(Mainer.workDayClock <= 480 + 540) {
+            if (Mainer.TaskTime) {
+                if (baseAppStateNamedDesire == null) {
+                    BaseAppState task = createTask(Mainer.Task);
+                    if (task == null) return;
+                    mainOffice.setEnabled(false);
+                    baseAppStateNamedDesire = task;
+                    stateManager.attach(baseAppStateNamedDesire);
+                }
+            } else if (baseAppStateNamedDesire != null) {
+                stateManager.detach(baseAppStateNamedDesire);
+                baseAppStateNamedDesire = null;
+                mainOffice.setEnabled(true);
             }
-        } else if (baseAppStateNamedDesire != null) {
-            stateManager.detach(baseAppStateNamedDesire);
-            baseAppStateNamedDesire = null;
-            mainOffice.setEnabled(true);
+        }else{
+          if(Mainer.TaskTime){
+              if (baseAppStateNamedDesire == null && stateManager.hasState(baseAppStateNamedDesire)) {
+                  stateManager.detach(baseAppStateNamedDesire);
+                  stateManager.attach(new EndContion());
+              }
+          }else{
+              if(stateManager.hasState(mainOffice)) {
+                  stateManager.detach(mainOffice);
+                  stateManager.attach(new EndContion());
+              }
+          }
         }
     }
 

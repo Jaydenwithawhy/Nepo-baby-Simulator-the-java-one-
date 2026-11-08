@@ -38,6 +38,8 @@ public class SleepKeysUI {
 
     Text text;
 
+    boolean grown;
+    double lastWidth;
     public SleepKeysUI(AssetManager ass,Node guiroot, Text text){
         this.ass = ass;
         this.guinode = guiroot;
@@ -115,21 +117,30 @@ public class SleepKeysUI {
     public void PrintOut(boolean sleeping){
         if(sleeping){
             String targetText = sleepKeys.toString().replace("[", "").replace("]", "");
+            double displacment = Math.clamp(node.getWidth() ,0,Double.POSITIVE_INFINITY);
 
+            grown = lastWidth > node.getWidth();
 
             if (!targetText.equals(lastRenderedText)) {
                 if (node != null) {
                     guinode.detachChild(node);
                 }
 
+
                 node = text.ttfFont.getText(targetText, 0, ColorRGBA.White);
-                node.setLocalTranslation(500f, 500f, 1f);
+                node.setLocalTranslation((float) ((-0.48385*displacment)+ 510.80909f), 500f, 1f);
+                // I found this Linear Regresssion by looking a at thees two values
+                // the system i had before was only subtracting the postion based on where it was
+                // but like it could never go back. this sysem still doesnt work >:( but is slightly better
+                System.out.println("fatty "+node.getWidth());
+                System.out.println("the x rn"+ node.getLocalTransform().getTranslation().x);
                 node.setQueueBucket(com.jme3.renderer.queue.RenderQueue.Bucket.Gui);
 
 
                 node.setCullHint(Spatial.CullHint.Inherit);
 
                 guinode.attachChild(node);
+                lastWidth = node.getWidth();
                 lastRenderedText = targetText;
             } else {
                 node.setCullHint(Spatial.CullHint.Inherit);
