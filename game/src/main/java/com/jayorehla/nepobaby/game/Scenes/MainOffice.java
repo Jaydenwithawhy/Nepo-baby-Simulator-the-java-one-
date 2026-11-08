@@ -172,7 +172,7 @@ public class MainOffice extends BaseAppState {
                 Mainer.TaskTime = true;
             }
         }else if(Mainer.Task == Task.PetTheCat.toString()){
-            if(camera.ObjectClicked() == Cam.ThingsToLookAt.cabeniet){
+            if(camera.ObjectClicked() == Cam.ThingsToLookAt.employee){
                 Mainer.TaskTime = true;
             }
         }else if(Mainer.Task == Task.SpreadDemSheets.toString()){

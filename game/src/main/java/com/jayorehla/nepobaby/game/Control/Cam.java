@@ -122,6 +122,8 @@ public class Cam {
                         return ThingsToLookAt.AdrienneChristianHernandez;
                     case "Cabinet":
                         return ThingsToLookAt.cabeniet;
+                    case "employees":
+                        return ThingsToLookAt.employee;
 
                 }
             }else return ThingsToLookAt.nothing;

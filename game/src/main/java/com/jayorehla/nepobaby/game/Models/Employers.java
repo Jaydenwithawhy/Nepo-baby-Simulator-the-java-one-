@@ -137,7 +137,7 @@ public class Employers {
         // Lothario Casanova lines
         voiceOptions.add("My favorite Employer! So the chicks down at {VAR} were expecting a response from me like an hour ago so now they are angry. On the bright side I shifted the blame to you so you better write to them quick! ");
         voiceOptions.add("Heya Mista Top dog! A fine dandelion like yourself out to send a message down to {VAR}, they would love to hear from you");
-        voiceOptions.add(" Okay so the press knows about your dads money laundering scheme. Not to worry email them a nice email, say your sorry, send some roses and they'll blow it over! That's a Lothario guarantee!");
+        voiceOptions.add("Okay so the press knows about your dads money laundering scheme. Not to worry email them a nice email, say your sorry, send some roses and they'll blow it over! That's a Lothario guarantee!");
 
         // Roberto Robyn Roby Robinder Robbie Robertson III lines
         voiceOptions.add("Guess whoze heair fore zour cool zings?! Roberto Robyn Roby Robinder Robbie Robertson Za Third! Zats who!");

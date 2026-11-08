@@ -1,6 +1,7 @@
 package com.jayorehla.nepobaby.game;
 
 import com.jayorehla.nepobaby.game.Control.MickeyMouse;
+import com.jayorehla.nepobaby.game.Scenes.CTask;
 import com.jayorehla.nepobaby.game.Scenes.EndContion;
 import com.jayorehla.nepobaby.game.Scenes.MainOffice;
 import com.jayorehla.nepobaby.game.Mouskatools.Mainer;
@@ -60,10 +61,15 @@ public class Main extends SimpleApplication {
     private BaseAppState createTask(String name) {
         switch (name) {
             case "Email":
+                return new RTask();
             case "ForkMoneyOver":
+                return new RTask();
             case "PetTheCat":
+                return new CTask();
             case "CleanUpMess":
+                return new RTask();
             case "SpreadDemSheets":
+                return new RTask();
             case "RebootComputa":
                 return new RTask();   // TODO: a different class per task
         }
